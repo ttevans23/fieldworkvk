@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FieldworkVK — Your Personal Offsite at Vanderkamp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─── SECURITY NOTE ────────────────────────────────────────────────────────────
+   API key entered here stays in the browser only. Keep this GitHub repo PRIVATE.
+   Do not share the source publicly while the key lives in this file.
+   For production: move to a backend proxy that holds the key server-side.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --forest:      #1e3a0f;
+  --deep-green:  #2d5016;
+  --mid-green:   #3d6b20;
+  --sage:        #7a9e5a;
+  --pale-sage:   #b8cfa0;
+  --cream:       #f5f0e8;
+  --warm-white:  #faf8f4;
+  --char:        #141a0e;
+  --text-light:  #e8edd8;
+  --text-mid:    #a8b890;
+  --text-dim:    #6a7a58;
+  --amber:       #c8960a;
+  --amber-pale:  #f5e8c0;
+  --border:      rgba(120,160,80,0.2);
+  --border-focus:rgba(180,220,120,0.5);
+  --ff-display:  'Cormorant Garamond', Georgia, serif;
+  --ff-body:     'Jost', sans-serif;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background-color: var(--char);
+  color: var(--text-light);
+  font-family: var(--ff-body);
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 20%, rgba(45,80,22,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 85% 80%, rgba(30,58,15,0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(20,26,14,0.6) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* PROGRESS */
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 2px; background: rgba(255,255,255,0.06); z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--sage), var(--pale-sage));
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* TOP MARK */
+.top-mark {
+  padding: 48px 0 0;
+  display: flex; align-items: center; gap: 16px;
+  opacity: 0; animation: fadeUp 0.8s 0.2s ease forwards;
+}
+.mark-line { width: 32px; height: 1px; background: var(--sage); }
+.mark-text {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage);
+}
+
+/* SCREENS */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* LANDING */
+.landing {
+  padding: 80px 0 100px; text-align: center;
+  opacity: 0; animation: fadeUp 0.9s 0.4s ease forwards;
+}
+.landing-eyebrow {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--sage); margin-bottom: 32px;
+}
+.landing-title {
+  font-family: var(--ff-display);
+  font-size: clamp(52px,8vw,80px); font-weight: 300;
+  line-height: 1.05; color: var(--warm-white);
+  margin-bottom: 8px; letter-spacing: -0.01em;
+}
+.landing-title em { font-style: italic; color: var(--pale-sage); }
+.landing-sub {
+  font-family: var(--ff-display);
+  font-size: 22px; font-weight: 300; font-style: italic;
+  color: var(--text-mid); margin-bottom: 56px;
+}
+.landing-rule { width: 48px; height: 1px; background: var(--border); margin: 0 auto 40px; }
+.landing-body {
+  font-size: 16px; font-weight: 300; line-height: 1.75;
+  color: var(--text-mid); max-width: 520px; margin: 0 auto 64px;
+}
+.landing-body strong { color: var(--text-light); font-weight: 400; }
+
+/* BUTTONS */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--deep-green); color: var(--pale-sage);
+  font-family: var(--ff-body); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: 1px solid rgba(120,180,60,0.3);
+  padding: 18px 40px; cursor: pointer;
+  transition: all 0.3s ease; text-decoration: none;
+}
+.btn-primary:hover {
+  background: var(--mid-green); border-color: rgba(160,220,80,0.5);
+  color: var(--warm-white); transform: translateY(-1px);
+}
+.btn-primary .arrow { font-size: 16px; transition: transform 0.3s ease; }
+.btn-primary:hover .arrow { transform: translateX(4px); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--text-dim);
+  font-family: var(--ff-body); font-size: 12px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  border: none; padding: 12px 0; cursor: pointer; transition: color 0.2s;
+}
+.btn-secondary:hover { color: var(--text-mid); }
+.btn-ghost {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-mid); font-family: var(--ff-body);
+  font-size: 12px; font-weight: 400; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 14px 28px;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--border-focus); color: var(--text-light); }
+
+/* FORM */
+.form-screen { padding: 60px 0 100px; }
+.step { display: none; }
+.step.active { display: block; animation: fadeUp 0.5s ease forwards; }
+.step-header { margin-bottom: 56px; }
+.step-number {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px;
+}
+.step-title {
+  font-family: var(--ff-display);
+  font-size: clamp(32px,5vw,48px); font-weight: 300;
+  line-height: 1.1; color: var(--warm-white); margin-bottom: 12px;
+}
+.step-title em { font-style: italic; color: var(--pale-sage); }
+.step-desc {
+  font-size: 15px; font-weight: 300; line-height: 1.7;
+  color: var(--text-mid); max-width: 500px;
+}
+
+/* FIELDS */
+.field-group { margin-bottom: 40px; }
+.field-label {
+  display: block; font-family: var(--ff-display);
+  font-size: 20px; font-weight: 400; color: var(--text-light);
+  line-height: 1.4; margin-bottom: 8px;
+}
+.field-sublabel {
+  font-size: 13px; font-weight: 300; color: var(--text-dim);
+  margin-bottom: 16px; line-height: 1.6;
+}
+.field-input, .field-textarea, .field-select {
+  width: 100%; background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border); color: var(--text-light);
+  font-family: var(--ff-body); font-size: 15px; font-weight: 300;
+  padding: 16px 20px; transition: border-color 0.2s, background 0.2s;
+  outline: none; -webkit-appearance: none; border-radius: 0;
+}
+.field-input:focus, .field-textarea:focus, .field-select:focus {
+  border-color: var(--border-focus); background: rgba(255,255,255,0.07);
+}
+.field-input::placeholder, .field-textarea::placeholder { color: var(--text-dim); }
+.field-textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
+.field-select option { background: var(--forest); color: var(--text-light); }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width:540px) { .field-row { grid-template-columns: 1fr; } }
+
+/* SCALE */
+.scale-track { display: flex; gap: 6px; }
+.scale-dot {
+  flex: 1; height: 40px; border: 1px solid var(--border);
+  background: transparent; cursor: pointer;
+  font-family: var(--ff-body); font-size: 12px; color: var(--text-dim);
+  transition: all 0.15s; display: flex; align-items: center; justify-content: center;
+}
+.scale-dot:hover { border-color: var(--border-focus); color: var(--text-mid); }
+.scale-dot.selected { background: var(--deep-green); border-color: var(--sage); color: var(--pale-sage); }
+.scale-labels {
+  display: flex; justify-content: space-between;
+  margin-top: 8px; font-size: 11px; color: var(--text-dim);
+}
+#scaleDisplay {
+  font-size: 13px; color: var(--text-dim);
+  margin-bottom: 10px; min-height: 20px;
+}
+
+/* CHOICES */
+.choice-grid { display: grid; gap: 10px; }
+.choice-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.choice-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width:540px) {
+  .choice-grid.cols-2, .choice-grid.cols-3 { grid-template-columns: 1fr; }
+}
+.choice-card {
+  border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+  padding: 16px 20px; cursor: pointer; transition: all 0.2s; position: relative;
+}
+.choice-card:hover { border-color: var(--border-focus); background: rgba(255,255,255,0.06); }
+.choice-card.selected { border-color: var(--sage); background: rgba(45,80,22,0.4); }
+.choice-card input { position: absolute; opacity: 0; pointer-events: none; }
+.choice-label { font-size: 14px; font-weight: 400; color: var(--text-light); display: block; }
+.choice-desc { font-size: 12px; color: var(--text-dim); margin-top: 4px; line-height: 1.5; }
+.choice-card.selected .choice-label { color: var(--pale-sage); }
+.choice-check {
+  position: absolute; top: 12px; right: 12px;
+  width: 16px; height: 16px; border: 1px solid var(--text-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: transparent; transition: all 0.2s;
+}
+.choice-card.selected .choice-check { background: var(--sage); border-color: var(--sage); color: var(--forest); }
+
+.field-divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+/* NAV */
+.step-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 48px; border-top: 1px solid var(--border); margin-top: 56px;
+}
+
+/* API NOTICE */
+.api-notice {
+  border: 1px solid rgba(200,150,10,0.3); background: rgba(200,150,10,0.06);
+  padding: 20px 24px; margin-bottom: 32px;
+  font-size: 13px; line-height: 1.65; color: var(--amber-pale);
+}
+.api-notice strong { color: var(--amber); font-weight: 500; }
+
+/* GENERATING */
+.gen-screen { padding: 100px 0; text-align: center; }
+.gen-icon { font-size: 48px; margin-bottom: 32px; animation: breathe 2s ease-in-out infinite; }
+@keyframes breathe {
+  0%,100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+.gen-title { font-family: var(--ff-display); font-size: 40px; font-weight: 300; color: var(--warm-white); margin-bottom: 16px; }
+.gen-sub { font-size: 14px; font-weight: 300; color: var(--text-dim); letter-spacing: 0.05em; margin-bottom: 56px; }
+.gen-progress { width: 200px; height: 1px; background: var(--border); margin: 0 auto; position: relative; overflow: hidden; }
+.gen-progress-fill {
+  position: absolute; left: -100%; top: 0; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, var(--sage), transparent);
+  animation: sweep 1.8s ease-in-out infinite;
+}
+@keyframes sweep { 0% { left: -100%; } 100% { left: 100%; } }
+
+/* RESULT */
+.result-screen { padding: 60px 0 100px; }
+.result-header { text-align: center; margin-bottom: 56px; padding-bottom: 48px; border-bottom: 1px solid var(--border); }
+.result-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); margin-bottom: 16px; }
+.result-title { font-family: var(--ff-display); font-size: 48px; font-weight: 300; color: var(--warm-white); margin-bottom: 8px; }
+.result-sub { font-family: var(--ff-display); font-style: italic; font-size: 20px; color: var(--text-mid); }
+.result-signals {
+  background: rgba(45,80,22,0.2); border: 1px solid var(--border);
+  padding: 24px 32px; margin-bottom: 32px;
+  font-size: 13px; line-height: 1.8; color: var(--text-mid);
+}
+.result-signals strong { color: var(--pale-sage); font-weight: 500; display: block; margin-bottom: 8px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
+.result-body {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  padding: 48px; font-size: 15px; font-weight: 300; line-height: 1.8;
+  color: var(--text-light); white-space: pre-wrap; margin-bottom: 40px;
+}
+.result-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* ERROR */
+.error-box {
+  background: rgba(180,40,20,0.15); border: 1px solid rgba(200,60,40,0.3);
+  padding: 20px 24px; color: #f0a090; font-size: 14px; line-height: 1.6;
+  margin-bottom: 24px; display: none;
+}
+.error-box.visible { display: block; }
+
+/* FOOTER */
+.foot-mark {
+  padding: 0 0 64px; text-align: center;
+  opacity: 0; animation: fadeUp 0.8s 0.8s ease forwards;
+}
+.foot-text { font-size: 11px; font-weight: 300; letter-spacing: 0.1em; color: var(--text-dim); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width:600px) {
+  .wrap { padding: 0 20px; }
+  .result-body { padding: 28px 20px; }
+  .result-actions { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<div class="wrap">
+
+  <div class="top-mark">
+    <div class="mark-line"></div>
+    <span class="mark-text">FieldworkVK · Vanderkamp</span>
+    <div class="mark-line"></div>
+  </div>
+
+  <!-- LANDING -->
+  <div class="screen active" id="screen-landing">
+    <div class="landing">
+      <div class="landing-eyebrow">Your personal offsite</div>
+      <h1 class="landing-title">Fieldwork<em>VK</em></h1>
+      <div class="landing-sub">850 acres. 48 hours. One question worth answering.</div>
+      <div class="landing-rule"></div>
+      <p class="landing-body">
+        What you fill in here shapes the next three days of your life. Not in a general sense — specifically. <strong>The trails you walk, the spaces you spend time in, the practices woven through your agenda</strong> — all of it is drawn from what you share below.<br><br>
+        Take your time. There are no right answers. The more honest you are, the better the design.
+      </p>
+      <button class="btn-primary" onclick="startForm()">Begin <span class="arrow">→</span></button>
+    </div>
+    <div class="foot-mark">
+      <span class="foot-text">Takes 8–10 minutes &nbsp;·&nbsp; Vanderkamp, upstate New York</span>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="screen" id="screen-form">
+    <div class="form-screen">
+
+      <!-- STEP 0: Basics -->
+      <div class="step" id="step-0">
+        <div class="step-header">
+          <div class="step-number">Before We Begin</div>
+          <h2 class="step-title">A few <em>basics</em></h2>
+          <p class="step-desc">Your name, when you're arriving, and where you'll be staying.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="guestName">Your name</label>
+          <input type="text" class="field-input" id="guestName" placeholder="First and last name">
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label" for="arrivalDate">Arrival date</label>
+            <input type="date" class="field-input" id="arrivalDate">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="departureDate">Departure date</label>
+            <input type="date" class="field-input" id="departureDate">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Your lodge</label>
+          <select class="field-select" id="lodge">
+            <option value="">Select a lodge…</option>
+            <option value="The Boathouse">The Boathouse — lakefront, private dock, panoramic water views</option>
+            <option value="Langston Cottage">Langston Cottage — one room, lake views, soaking tub, book nook</option>
+            <option value="Wohlleben Cabin">Wohlleben Cabin — deep forest, maximum solitude, pet friendly</option>
+            <option value="Frank Soule Lodge">Frank Soule Lodge — the original 1910 cottage, sleeps 16, lakefront</option>
+            <option value="Grace Manor">Grace Manor — 9 ensuite rooms, hot tub, back fire pit, front lake views</option>
+          </select>
+        </div>
+
+        <div class="step-nav">
+          <span></span>
+          <button class="btn-primary" onclick="nextStep(0)">Continue <span class="arrow">→</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 1: Intention -->
+      <div class="step" id="step-1">
+        <div class="step-header">
+          <div class="step-number">Section One of Four</div>
+          <h2 class="step-title">Your <em>intention</em></h2>
+          <p class="step-desc">What's bringing you here. There's no wrong answer — and the more honest you are, the better this works.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="q1">What's bringing you to Vanderkamp right now?</label>
+          <div class="field-sublabel">Not the calendar reason — the real one. What's sitting with you that needs some room?</div>
+          <textarea class="field-textarea" id="q1" placeholder="Write as much or as little as feels right…" style="min-height:140px"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="q2">What would a genuinely great outcome look like?</label>
+          <div class="field-sublabel">Not what you should want — what you'd actually feel if these three days worked.</div>
+          <textarea class="field-textarea" id="q2" placeholder="I'd leave feeling…  /  I'd have clarity on…  /  Something would have shifted…"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="q3">What's the biggest obstacle right now?</label>
+          <div class="field-sublabel">The thing that makes the question hard. What keeps getting in the way.</div>
+          <textarea class="field-textarea" id="q3" placeholder="Optional — but often the most useful thing to share"></textarea>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-secondary" onclick="prevStep(1)">← Back</button>
+          <button class="btn-primary" onclick="nextStep(1)">Continue <span class="arrow">→</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Approach -->
+      <div class="step" id="step-2">
+        <div class="step-header">
+          <div class="step-number">Section Two of Four</div>
+          <h2 class="step-title">How you <em>open</em></h2>
+          <p class="step-desc">Everyone finds their way to stillness differently. These questions help us design around how you actually work — not how you think you should.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">How does your mind most naturally quiet down?</label>
+          <div class="field-sublabel">Pick the one that feels most true — not aspirational.</div>
+          <div class="choice-grid cols-2">
+            <label class="choice-card" onclick="selectChoice(this,'q4')">
+              <input type="radio" name="q4" value="Moving — walking, running, physical activity">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Moving</span>
+              <span class="choice-desc">Walking, running, physical activity</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q4')">
+              <input type="radio" name="q4" value="Watching — sitting still and observing the world">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Watching</span>
+              <span class="choice-desc">Sitting still and observing</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q4')">
+              <input type="radio" name="q4" value="Listening — to sound, music, or the ambient world">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Listening</span>
+              <span class="choice-desc">Sound, music, the ambient world</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q4')">
+              <input type="radio" name="q4" value="Writing or thinking — working things out on paper">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Writing / thinking</span>
+              <span class="choice-desc">Working things out on paper</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Where are you starting from right now?</label>
+          <div class="field-sublabel">Your honest nervous system state coming in — not how you want to feel, how you actually feel today.</div>
+          <div id="scaleDisplay">Select a number</div>
+          <div class="scale-track" id="scaleTrack">
+            <div class="scale-dot" data-val="1" onclick="selectScale(1)">1</div>
+            <div class="scale-dot" data-val="2" onclick="selectScale(2)">2</div>
+            <div class="scale-dot" data-val="3" onclick="selectScale(3)">3</div>
+            <div class="scale-dot" data-val="4" onclick="selectScale(4)">4</div>
+            <div class="scale-dot" data-val="5" onclick="selectScale(5)">5</div>
+            <div class="scale-dot" data-val="6" onclick="selectScale(6)">6</div>
+            <div class="scale-dot" data-val="7" onclick="selectScale(7)">7</div>
+            <div class="scale-dot" data-val="8" onclick="selectScale(8)">8</div>
+            <div class="scale-dot" data-val="9" onclick="selectScale(9)">9</div>
+            <div class="scale-dot" data-val="10" onclick="selectScale(10)">10</div>
+          </div>
+          <div class="scale-labels">
+            <span>Running on empty</span>
+            <span>Buzzing, hard to land</span>
+          </div>
+          <input type="hidden" id="q5" value="">
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Experience with deliberate attention practices?</label>
+          <div class="field-sublabel">Meditation, journaling, contemplative practices — anything intentional around where you direct your mind.</div>
+          <div class="choice-grid">
+            <label class="choice-card" onclick="selectChoice(this,'q6')">
+              <input type="radio" name="q6" value="New to this — or returning after a long gap">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">New to this</span>
+              <span class="choice-desc">Or returning after a long gap</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q6')">
+              <input type="radio" name="q6" value="Some experience — occasional practice, know the basics">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Some experience</span>
+              <span class="choice-desc">Occasional practice, know the basics</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q6')">
+              <input type="radio" name="q6" value="Regular practice — already part of my life">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Regular practice</span>
+              <span class="choice-desc">Already part of my life</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">How do you prefer to work with ideas?</label>
+          <div class="field-sublabel">Helps calibrate how frameworks and practices are introduced.</div>
+          <div class="choice-grid cols-3">
+            <label class="choice-card" onclick="selectChoice(this,'q7')">
+              <input type="radio" name="q7" value="Concrete — give me the tool and the steps">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Concrete</span>
+              <span class="choice-desc">Give me the tool and the steps</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q7')">
+              <input type="radio" name="q7" value="Mixed — some structure, some open exploration">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Mixed</span>
+              <span class="choice-desc">Some structure, some exploration</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q7')">
+              <input type="radio" name="q7" value="Open — point me toward the question and let me find it">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Open</span>
+              <span class="choice-desc">Point me toward the question</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-secondary" onclick="prevStep(2)">← Back</button>
+          <button class="btn-primary" onclick="nextStep(2)">Continue <span class="arrow">→</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Practical -->
+      <div class="step" id="step-3">
+        <div class="step-header">
+          <div class="step-number">Section Three of Four</div>
+          <h2 class="step-title">The <em>practical</em></h2>
+          <p class="step-desc">A few details that help us design around you — not an ideal version of you.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="q8">Physical comfort and mobility</label>
+          <div class="field-sublabel">Anything to build around? Injuries, limitations, things to avoid.</div>
+          <textarea class="field-textarea" id="q8" placeholder="e.g. No significant limitations  /  Bad left knee, avoid steep descents  /  Recovering from surgery" style="min-height:90px"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="q9">What are you most ready to work on?</label>
+          <div class="field-sublabel">Of everything you're carrying — what feels most ripe?</div>
+          <textarea class="field-textarea" id="q9" placeholder="The thing that feels most ready to move…"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">How are you arriving?</label>
+          <div class="field-sublabel">Shapes your pre-arrival experience and the drive in.</div>
+          <div class="choice-grid cols-2">
+            <label class="choice-card" onclick="selectChoice(this,'q10arrival')">
+              <input type="radio" name="q10arrival" value="Driving alone">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Driving alone</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q10arrival')">
+              <input type="radio" name="q10arrival" value="Driving with someone">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Driving with someone</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q10arrival')">
+              <input type="radio" name="q10arrival" value="Flying in or rideshare">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Flying in / rideshare</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q10arrival')">
+              <input type="radio" name="q10arrival" value="Not sure yet">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Not sure yet</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="q10diet">Dietary notes</label>
+          <div class="field-sublabel">Allergies, preferences, anything the kitchen should know.</div>
+          <input type="text" class="field-input" id="q10diet" placeholder="e.g. Vegetarian  /  Gluten-free  /  No restrictions  /  Nut allergy">
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-secondary" onclick="prevStep(3)">← Back</button>
+          <button class="btn-primary" onclick="nextStep(3)">Continue <span class="arrow">→</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Final -->
+      <div class="step" id="step-4">
+        <div class="step-header">
+          <div class="step-number">Section Four of Four</div>
+          <h2 class="step-title">Last <em>things</em></h2>
+          <p class="step-desc">One open question. Anything you share here goes directly to your coach before the pre-arrival call.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="q11">Is there anything your coach should know before you arrive?</label>
+          <div class="field-sublabel">Context, history, sensitivities, something you're hoping for — or leave it blank.</div>
+          <textarea class="field-textarea" id="q11" placeholder="Anything at all — or leave this blank if nothing comes to mind." style="min-height:140px"></textarea>
+        </div>
+
+        <div class="field-divider"></div>
+
+        <div class="field-group">
+          <label class="field-label">One last thing — how would you describe yourself?</label>
+          <div class="field-sublabel">Calibrates tone and depth throughout your Field Guide.</div>
+          <div class="choice-grid cols-2">
+            <label class="choice-card" onclick="selectChoice(this,'q12')">
+              <input type="radio" name="q12" value="Practically-minded — I want tools and clarity, not metaphor">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Practically-minded</span>
+              <span class="choice-desc">Tools and clarity over metaphor</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q12')">
+              <input type="radio" name="q12" value="Somewhere in between — open to both">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Somewhere in between</span>
+              <span class="choice-desc">Open to both</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q12')">
+              <input type="radio" name="q12" value="Spiritually-oriented — comfortable with depth, symbolism, and meaning-making">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Spiritually-oriented</span>
+              <span class="choice-desc">Comfortable with depth and meaning-making</span>
+            </label>
+            <label class="choice-card" onclick="selectChoice(this,'q12')">
+              <input type="radio" name="q12" value="Not sure yet — let the experience tell me">
+              <div class="choice-check">✓</div>
+              <span class="choice-label">Not sure yet</span>
+              <span class="choice-desc">Let the experience show me</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="errorBox" class="error-box"></div>
+
+        <div class="step-nav">
+          <button class="btn-secondary" onclick="prevStep(4)">← Back</button>
+          <button class="btn-primary" onclick="submitForm()">Generate Field Guide <span class="arrow">→</span></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GENERATING -->
+  <div class="screen" id="screen-generating">
+    <div class="gen-screen">
+      <div class="gen-icon">◈</div>
+      <h2 class="gen-title">Building your Field Guide</h2>
+      <p class="gen-sub">Reading your responses &nbsp;·&nbsp; Mapping the property &nbsp;·&nbsp; Designing your sequence</p>
+      <div class="gen-progress"><div class="gen-progress-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="screen-result">
+    <div class="result-screen">
+      <div class="result-header">
+        <div class="result-eyebrow">Field Guide Draft — Ready for Coach Review</div>
+        <h2 class="result-title" id="resultGuestName">Field Guide</h2>
+        <div class="result-sub" id="resultDates"></div>
+      </div>
+      <div class="result-signals" id="resultSignals"></div>
+      <div class="result-body" id="resultContent"></div>
+      <div class="result-actions">
+        <button class="btn-primary" onclick="copyResult()">Copy to clipboard <span class="arrow">↗</span></button>
+        <button class="btn-ghost" onclick="downloadResult()">Download .txt</button>
+        <button class="btn-secondary" onclick="startOver()">New intake →</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+// Optionally pre-fill API key (keep repo PRIVATE if you do):
+const API_KEY_DEFAULT = '';
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let scaleValue = null;
+let resultText = '';
+let guestNameGlobal = '';
+
+// ─── SCREENS ─────────────────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startForm() {
+  showScreen('form');
+  showStep(0);
+}
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  const pct = (n / 5) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep(from) {
+  if (!validateStep(from)) return;
+  showStep(from + 1);
+}
+function prevStep(from) { showStep(from - 1); }
+
+// ─── VALIDATION ───────────────────────────────────────────────────────────────
+function validateStep(n) {
+  if (n === 0) {
+    const key = API_KEY_DEFAULT;
+    if (!key) { alert('Configuration error: API key not set. Contact Vanderkamp.'); return false; }
+    if (!document.getElementById('guestName').value.trim()) { alert('Please enter the guest name.'); return false; }
+    if (!document.getElementById('arrivalDate').value) { alert('Please enter an arrival date.'); return false; }
+    if (!document.getElementById('departureDate').value) { alert('Please enter a departure date.'); return false; }
+    if (!document.getElementById('lodge').value) { alert('Please select a lodge.'); return false; }
+  }
+  if (n === 1) {
+    if (!document.getElementById('q1').value.trim()) { alert('Please share what\'s bringing you to Vanderkamp.'); return false; }
+    if (!document.getElementById('q2').value.trim()) { alert('Please describe what a great outcome looks like.'); return false; }
+  }
+  if (n === 2) {
+    if (!document.querySelector('input[name="q4"]:checked')) { alert('Please select how your mind most naturally quiets.'); return false; }
+    if (!scaleValue) { alert('Please select a number on the scale.'); return false; }
+    if (!document.querySelector('input[name="q6"]:checked')) { alert('Please select your experience level.'); return false; }
+    if (!document.querySelector('input[name="q7"]:checked')) { alert('Please select how you prefer to work with ideas.'); return false; }
+  }
+  return true;
+}
+
+// ─── INTERACTIONS ─────────────────────────────────────────────────────────────
+function selectChoice(card, name) {
+  card.closest('.choice-grid').querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  card.querySelector('input').checked = true;
+}
+
+const scaleLabels = {
+  1:'Running on empty — deeply depleted',2:'Very low energy',
+  3:'Tired and stretched thin',4:'Getting by, some fatigue',
+  5:'Baseline — functional but not rested',6:'Reasonably well, some edge',
+  7:'Good energy, some background hum',8:'High energy, a bit wired',
+  9:'Very activated, mind running fast',10:'Buzzing — hard to land'
+};
+function selectScale(val) {
+  scaleValue = val;
+  document.getElementById('q5').value = val + ' — ' + scaleLabels[val];
+  document.querySelectorAll('.scale-dot').forEach(d => d.classList.toggle('selected', +d.dataset.val === val));
+  const el = document.getElementById('scaleDisplay');
+  el.textContent = val + ' — ' + scaleLabels[val];
+  el.style.color = 'var(--pale-sage)';
+}
+
+// ─── SUBMIT ───────────────────────────────────────────────────────────────────
+async function submitForm() {
+  const errorBox = document.getElementById('errorBox');
+  errorBox.classList.remove('visible');
+
+  if (!document.querySelector('input[name="q12"]:checked')) {
+    showError('Please select how you\'d describe yourself.'); return;
+  }
+
+  const apiKey = API_KEY_DEFAULT;
+  const guestName = document.getElementById('guestName').value.trim();
+  const arrivalDate = document.getElementById('arrivalDate').value;
+  const departureDate = document.getElementById('departureDate').value;
+  const lodge = document.getElementById('lodge').value;
+
+  const arr = new Date(arrivalDate + 'T12:00:00');
+  const dep = new Date(departureDate + 'T12:00:00');
+  const diffH = Math.round((dep - arr) / 3600000);
+  const duration = diffH <= 50 ? '48 hours' : '72 hours';
+  const month = arr.getMonth();
+  const season = month <= 1 || month === 11 ? 'Winter' : month <= 4 ? 'Spring' : month <= 7 ? 'Summer' : 'Fall';
+  const dateOpts = { month:'long', day:'numeric', year:'numeric' };
+  const arrDisplay = arr.toLocaleDateString('en-US', dateOpts);
+  const depDisplay = dep.toLocaleDateString('en-US', dateOpts);
+
+  guestNameGlobal = guestName;
+
+  const q4  = document.querySelector('input[name="q4"]:checked')?.value || '';
+  const q5  = document.getElementById('q5').value;
+  const q6  = document.querySelector('input[name="q6"]:checked')?.value || '';
+  const q7  = document.querySelector('input[name="q7"]:checked')?.value || '';
+  const q8  = document.getElementById('q8').value.trim() || 'No limitations noted';
+  const q9  = document.getElementById('q9').value.trim() || 'Not specified';
+  const q10a = document.querySelector('input[name="q10arrival"]:checked')?.value || 'Not specified';
+  const q10d = document.getElementById('q10diet').value.trim() || 'No restrictions';
+  const q11 = document.getElementById('q11').value.trim() || 'Nothing additional';
+  const q12 = document.querySelector('input[name="q12"]:checked')?.value || '';
+
+  document.getElementById('progressFill').style.width = '100%';
+  showScreen('generating');
+
+  const systemPrompt = `You are the Fieldwork Field Guide Generator for Vanderkamp, an 850-acre nature-based personal offsite in upstate New York.
+
+FIELDWORK PHILOSOPHY: Guests already hold the wisdom they seek. Your role is to design conditions for them to find it — not to instruct, not to tell, not to promise outcomes. A trail of discoveries, not a set of instructions.
+
+VOICE: Warm, intelligent, grounded. Never clinical, never soft, never sycophantic. Treat the guest as a capable adult. Never use: journey, transformation, growth, wellness, potential, breakthrough, unlock, or spa-brochure language.
+
+THE SCHEDULING RULE: Sequence, do not schedule. No clock times. Use rhythm language: "When you're ready to move in the morning...", "After the day has opened up...", "As the afternoon settles...", "As the light changes..."
+
+FOUR RHYTHM ARCS:
+Morning — activation, movement, physical work, framework exercises
+Midday — ease, integration, long meals, unstructured time, hammock
+Afternoon — depth, journaling, contemplative spaces, lake time
+Evening — landing, fire, reflection, labyrinth, winding down
+
+AGENDA BLOCKS FORMAT: Each block = activity name (evocative not procedural) + space name + rhythm arc label + 2-4 sentences body text. Body ends on invitation not instruction. Include relevant science only when it enhances.
+
+VANDERKAMP PROPERTY (draw from these):
+Arrival: The Forest Drive (half-mile threshold, roll windows down)
+Lake: The Beach (50-acre lake, open sky, sunrises), The Dock (liminal, between worlds), On the Water (kayak/canoe/SUP), The Floating Dock (8x8 platform 300ft from shore, kayak only)
+Trails: Blue Trail (1.7mi moderate — pine grove zone, bridge, hill at end), Orange Trail (2.4mi challenging — route-finding, Mallard Pond reward), Yellow Trail (1.8mi easy — lake views, Cobblestone Dams, gentle water), Green Trail (2.1mi mod-challenging — wetlands, boardwalks, ferns)
+Forest Destinations: Pine Forest Zone (dense pine, concentrated phytoncides, near-silence), Blue Trail Bridge (running water, letting-go), Cobblestone Dams (100yr old stone, legacy/patience), Mallard Pond (beaver-built, earned reward, hilltop view), Sled Hill (play, joy), Hammock Grove at Stone Ponds, Meditation Labyrinth (brick, no wrong turns, near Spa), Forest Venue (pine clearing with benches), The Last Chestnuts (resilience story), The Hill/Perspective Point (end of Blue Trail, elevated view), The Ferns (chest-high, ancient, Green Trail), The Field (open meadow, decision point on Orange Trail)
+Spa: Steam Sauna + Cold Plunge (book ahead, 45min heat), Salt-Wall Meditation Room (Himalayan salt wall, moss wall, iPad-guided meditation), White Pine Lounge (pine tea, robes, integration)
+Kempwick: Fireplace Lounge (permission to do nothing), Bar (WiFi, digital window), Sunken Fire Pit (100yr stone foundation, seats 20+)
+Lodges: Boathouse (private dock, hammock, lake views), Langston Cottage (book nook, soaking tub, one room), Wohlleben Cabin (deep forest, solitude), Frank Soule Lodge (communal, 1910 original, lakefront), Grace Manor (9 ensuite, hot tub, back deck fire pit)
+
+GENERATE the complete Field Guide in this exact structure:
+
+═══════════════════════════════════════════
+FIELDWORK
+Your Personal Offsite at Vanderkamp
+═══════════════════════════════════════════
+
+[Guest Name]
+[Arrival Date] — [Departure Date]
+[Lodge]
+
+"[EVOCATIVE LINE: 10-20 words drawn from their stated intention, their language refined — not a tagline, their words]"
+
+─────────────────────────────────────
+WHY YOU'RE HERE
+─────────────────────────────────────
+[2-3 paragraphs. P1: mirror their challenge back with understanding not summary. P2: what these days are designed to do. P3 optional: gentle reframe or opening question. Max 250 words. Never promise outcomes or tell them what they'll discover.]
+
+─────────────────────────────────────
+BEFORE YOU ARRIVE
+─────────────────────────────────────
+
+THE JOURNEY IN
+[Podcast or book matched to territory + one sentence on why this one for them + brief forest drive closing instruction]
+
+YOUR OUT OF OFFICE
+Thank you for reaching out.
+
+I'm currently offline — not hiding, but deliberately away. I'm at Vanderkamp, doing the kind of thinking that email interrupts.
+
+I'll return on [DATE], sharper and more useful to you than I am right now.
+
+For urgent matters, please contact [NAME] at [EMAIL].
+
+— [Your name]
+
+WHAT TO PACK
+Pack for outside — whatever the weather is. Rain, cold, and snow are not reasons to stay in. They're often the reason to go out. Some of the most clarifying experiences on this property happen in the middle of a November morning when the trail is wet and no one else is on it. Bring layers. Bring boots. Bring a rain jacket that you'll actually wear. The forecast doesn't get to decide what's possible.
+
+[Add one seasonal sentence appropriate to their arrival month]
+
+─────────────────────────────────────
+YOUR [DURATION]
+─────────────────────────────────────
+
+DAY ONE
+[1-2 sentence evocative frame for this day]
+
+[MORNING]
+◈ [Activity Name]
+[Space]
+[2-4 sentences. Invitation at end.]
+
+[Continue all blocks across Day 1, Day 2, Day 3 with rhythm arc labels]
+
+─────────────────────────────────────
+THE CLOSING MORNING
+─────────────────────────────────────
+[One practice. Unhurried. 100-150 words. Nothing scheduled after it.]
+
+─────────────────────────────────────
+CARRYING IT FORWARD
+─────────────────────────────────────
+[3-5 suggestions. 1-2 sentences each. Seeds not assignments. Specific to this person.]
+
+─────────────────────────────────────
+A NOTE FROM VANDERKAMP
+─────────────────────────────────────
+These 850 acres have been a place of retreat for over two hundred years. They don't care about your title, your deadlines, or your to-do list. They only ask that you slow down long enough to notice what's already here. We hope you found it. Come back whenever you need to remember.`;
+
+  const userPrompt = `GUEST DATA:
+Name: ${guestName}
+Arrival: ${arrDisplay}
+Departure: ${depDisplay}
+Duration: ${duration}
+Season: ${season}
+Lodge: ${lodge}
+
+Q1 — What's bringing you here: ${document.getElementById('q1').value.trim()}
+Q2 — What a great outcome looks like: ${document.getElementById('q2').value.trim()}
+Q3 — Biggest obstacle: ${document.getElementById('q3').value.trim() || 'Not specified'}
+Q4 — How mind naturally quiets: ${q4}
+Q5 — Nervous system state: ${q5}
+Q6 — Experience with attention practices: ${q6}
+Q7 — How they work with ideas: ${q7}
+Q8 — Physical notes: ${q8}
+Q9 — Most ready to work on: ${q9}
+Q10a — How arriving: ${q10a}
+Q10b — Dietary notes: ${q10d}
+Q11 — What coach should know: ${q11}
+Q12 — Self-described orientation / symbolism dial: ${q12}
+
+Before generating the Field Guide, state your signal interpretation in 5 lines:
+TERRITORY: [Crossroads/Stuck Place/Passage/Strategic Question/Deeper Ask/Restoration] — [brief why]
+ENTRY STYLE: [Watcher/Listener/Mover/Thinker] — [brief why]
+ARRIVAL STATE: [Activated/Functional/Depleted] — [brief why]
+SYMBOLISM: [Hint/Moderate/Explicit] — [brief why]
+PRIMARY FRAMEWORK: [name] — [brief why]
+
+Then generate the complete Field Guide.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }],
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err?.error?.message || 'API error ' + res.status);
+    }
+
+    const data = await res.json();
+    const fullText = data.content?.[0]?.text || '';
+
+    // Split signals from guide
+    const guideStart = fullText.indexOf('═══');
+    const signalsRaw = guideStart > 0 ? fullText.slice(0, guideStart).trim() : '';
+    const guideText  = guideStart > 0 ? fullText.slice(guideStart).trim() : fullText;
+
+    resultText = fullText;
+
+    document.getElementById('resultGuestName').textContent = guestName + ' — Field Guide Draft';
+    document.getElementById('resultDates').textContent = arrDisplay + ' — ' + depDisplay + '  ·  ' + lodge;
+
+    const sigBox = document.getElementById('resultSignals');
+    if (signalsRaw) {
+      sigBox.innerHTML = '<strong>Signal Interpretation</strong>' + signalsRaw.replace(/\n/g, '<br>');
+      sigBox.style.display = 'block';
+    } else {
+      sigBox.style.display = 'none';
+    }
+
+    document.getElementById('resultContent').textContent = guideText;
+    showScreen('result');
+
+  } catch (err) {
+    showScreen('form');
+    showStep(4);
+    showError('Generation failed: ' + err.message + '. Please try again or contact Vanderkamp.');
+  }
+}
+
+function showError(msg) {
+  const box = document.getElementById('errorBox');
+  box.textContent = msg;
+  box.classList.add('visible');
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ─── RESULT ACTIONS ───────────────────────────────────────────────────────────
+function copyResult() {
+  navigator.clipboard.writeText(resultText).then(() => {
+    const btn = event.currentTarget;
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => btn.innerHTML = 'Copy to clipboard <span class="arrow">↗</span>', 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = resultText; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+  });
+}
+
+function downloadResult() {
+  const blob = new Blob([resultText], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'FieldworkVK-' + guestNameGlobal.replace(/\s+/g,'-') + '.txt';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function startOver() {
+  document.querySelectorAll('.field-input,.field-textarea').forEach(el => {
+    if (el.id !== 'apiKey') el.value = '';
+  });
+  document.querySelectorAll('.field-select').forEach(el => el.value = '');
+  document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+  document.querySelectorAll('.scale-dot').forEach(d => d.classList.remove('selected'));
+  document.getElementById('scaleDisplay').textContent = 'Select a number';
+  document.getElementById('scaleDisplay').style.color = 'var(--text-dim)';
+  scaleValue = null; resultText = '';
+  document.getElementById('progressFill').style.width = '0%';
+  showScreen('landing');
+}
+</script>
+</body>
+</html>

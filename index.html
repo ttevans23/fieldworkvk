@@ -3,17 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FieldworkVK — Your Personal Offsite at Vanderkamp</title>
+<title>FieldworkVK — Intake</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* ─── SECURITY NOTE ────────────────────────────────────────────────────────────
-   API key entered here stays in the browser only. Keep this GitHub repo PRIVATE.
-   Do not share the source publicly while the key lives in this file.
-   For production: move to a backend proxy that holds the key server-side.
-   ─────────────────────────────────────────────────────────────────────────── */
+/* API key is hardcoded in JS below. Keep this repo PRIVATE. */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -69,14 +65,15 @@ body::before {
 }
 
 /* PROGRESS */
-.progress-bar {
+#progress-bar {
   position: fixed; top: 0; left: 0; right: 0;
   height: 2px; background: rgba(255,255,255,0.06); z-index: 100;
 }
-.progress-fill {
+#progress-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--sage), var(--pale-sage));
   transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  width: 0%;
 }
 
 /* TOP MARK */
@@ -205,25 +202,6 @@ body::before {
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 @media (max-width:540px) { .field-row { grid-template-columns: 1fr; } }
 
-/* SCALE */
-.scale-track { display: flex; gap: 6px; }
-.scale-dot {
-  flex: 1; height: 40px; border: 1px solid var(--border);
-  background: transparent; cursor: pointer;
-  font-family: var(--ff-body); font-size: 12px; color: var(--text-dim);
-  transition: all 0.15s; display: flex; align-items: center; justify-content: center;
-}
-.scale-dot:hover { border-color: var(--border-focus); color: var(--text-mid); }
-.scale-dot.selected { background: var(--deep-green); border-color: var(--sage); color: var(--pale-sage); }
-.scale-labels {
-  display: flex; justify-content: space-between;
-  margin-top: 8px; font-size: 11px; color: var(--text-dim);
-}
-#scaleDisplay {
-  font-size: 13px; color: var(--text-dim);
-  margin-bottom: 10px; min-height: 20px;
-}
-
 /* CHOICES */
 .choice-grid { display: grid; gap: 10px; }
 .choice-grid.cols-2 { grid-template-columns: 1fr 1fr; }
@@ -251,19 +229,25 @@ body::before {
 
 .field-divider { height: 1px; background: var(--border); margin: 48px 0; }
 
+/* Q LABEL / TEXT */
+.q-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px;
+}
+.q-text {
+  font-family: var(--ff-display); font-size: 20px; font-weight: 400;
+  color: var(--text-light); line-height: 1.4; margin-bottom: 6px;
+}
+.q-hint {
+  font-size: 13px; font-weight: 300; color: var(--text-dim);
+  margin-bottom: 16px; line-height: 1.6; font-style: italic;
+}
+
 /* NAV */
 .step-nav {
   display: flex; align-items: center; justify-content: space-between;
   padding-top: 48px; border-top: 1px solid var(--border); margin-top: 56px;
 }
-
-/* API NOTICE */
-.api-notice {
-  border: 1px solid rgba(200,150,10,0.3); background: rgba(200,150,10,0.06);
-  padding: 20px 24px; margin-bottom: 32px;
-  font-size: 13px; line-height: 1.65; color: var(--amber-pale);
-}
-.api-notice strong { color: var(--amber); font-weight: 500; }
 
 /* GENERATING */
 .gen-screen { padding: 100px 0; text-align: center; }
@@ -326,11 +310,164 @@ body::before {
   .result-body { padding: 28px 20px; }
   .result-actions { flex-direction: column; }
 }
+
+/* ─── SUPPLEMENTAL: form step / result classes ─────────────────────────── */
+.step-inner { max-width: 100%; }
+.section-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px;
+}
+.field { margin-bottom: 32px; }
+.field label {
+  display: block; font-family: var(--ff-display);
+  font-size: 18px; font-weight: 400; color: var(--text-light);
+  line-height: 1.4; margin-bottom: 8px;
+}
+.field input[type="text"],
+.field input[type="date"],
+.field textarea,
+.field select {
+  width: 100%; background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border); color: var(--text-light);
+  font-family: var(--ff-body); font-size: 15px; font-weight: 300;
+  padding: 16px 20px; transition: border-color 0.2s, background 0.2s;
+  outline: none; -webkit-appearance: none; border-radius: 0;
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color: var(--border-focus); background: rgba(255,255,255,0.07);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--text-dim); }
+.field textarea { min-height: 100px; resize: vertical; line-height: 1.7; }
+.field select option { background: var(--forest); color: var(--text-light); }
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9e5a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px;
+}
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width:540px) { .row-2 { grid-template-columns: 1fr; } }
+
+.q-divider { height: 1px; background: var(--border); margin: 40px 0; border: none; }
+
+.choices { display: grid; gap: 10px; margin-bottom: 0; }
+.choices label.choice-card {
+  border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+  padding: 16px 20px 16px 48px; cursor: pointer;
+  transition: all 0.2s; position: relative; display: block;
+}
+.choices label.choice-card:hover { border-color: var(--border-focus); background: rgba(255,255,255,0.06); }
+.choices label.choice-card:has(input:checked) { border-color: var(--sage); background: rgba(45,80,22,0.4); }
+.choices label.choice-card input[type="radio"] {
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  accent-color: var(--sage);
+}
+.choices label.choice-card:has(input:checked)::after {
+  content: '✓'; position: absolute; right: 14px; top: 50%;
+  transform: translateY(-50%); color: var(--sage); font-size: 12px;
+}
+.card-body { font-size: 14px; color: var(--text-mid); line-height: 1.55; }
+.card-body strong {
+  display: block; color: var(--text-light); font-weight: 400;
+  font-size: 14px; margin-bottom: 3px;
+}
+.choices label.choice-card:has(input:checked) .card-body { color: var(--pale-sage); }
+.choices label.choice-card:has(input:checked) .card-body strong { color: var(--pale-sage); }
+
+.btn-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--text-dim);
+  font-family: var(--ff-body); font-size: 12px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  border: none; padding: 12px 0; cursor: pointer; transition: color 0.2s;
+}
+.btn-back:hover { color: var(--text-mid); }
+.btn-next {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--deep-green); color: var(--pale-sage);
+  font-family: var(--ff-body); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: 1px solid rgba(120,180,60,0.3);
+  padding: 18px 40px; cursor: pointer; transition: all 0.3s ease;
+}
+.btn-next:hover { background: var(--mid-green); color: var(--warm-white); transform: translateY(-1px); }
+.btn-submit {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--deep-green); color: var(--pale-sage);
+  font-family: var(--ff-body); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: 1px solid rgba(120,180,60,0.3);
+  padding: 18px 40px; cursor: pointer; transition: all 0.3s ease;
+}
+.btn-submit:hover { background: var(--mid-green); color: var(--warm-white); transform: translateY(-1px); }
+
+/* Generating screen */
+#screen-gen {
+  padding: 100px 0; text-align: center;
+}
+.gen-mark {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--sage); margin-bottom: 24px;
+}
+.gen-dots { margin-top: 56px; display: flex; gap: 8px; justify-content: center; }
+.gen-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--sage); animation: pulse 1.4s ease-in-out infinite;
+}
+.gen-dot:nth-child(2) { animation-delay: 0.2s; }
+.gen-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+/* Result screen */
+#screen-result { padding: 60px 0 100px; }
+.result-header { margin-bottom: 56px; padding-bottom: 48px; border-bottom: 1px solid var(--border); }
+.result-mark {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--sage); margin-bottom: 16px;
+}
+.result-inner { }
+.signal-box {
+  background: rgba(45,80,22,0.2); border: 1px solid var(--border);
+  padding: 24px 32px; margin-bottom: 32px;
+  font-size: 13px; line-height: 1.8; color: var(--text-mid);
+}
+.signal-box-label {
+  color: var(--pale-sage); font-weight: 500; display: block;
+  margin-bottom: 8px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+}
+.signal-box pre { font-family: var(--ff-body); font-size: 13px; color: var(--text-mid); line-height: 1.8; white-space: pre-wrap; }
+.guide-box {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  padding: 48px; margin-bottom: 40px;
+}
+.guide-box pre { font-family: var(--ff-body); font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--text-light); white-space: pre-wrap; }
+.result-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-action {
+  display: inline-flex; align-items: center;
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-mid); font-family: var(--ff-body);
+  font-size: 12px; font-weight: 400; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 14px 28px;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-action:hover { border-color: var(--border-focus); color: var(--text-light); }
+.btn-action.primary {
+  background: var(--deep-green); border-color: rgba(120,180,60,0.4);
+  color: var(--pale-sage);
+}
+.btn-action.primary:hover { background: var(--mid-green); color: var(--warm-white); }
+
+@media (max-width:600px) {
+  .guide-box { padding: 28px 20px; }
+  .result-actions { flex-direction: column; }
+  .btn-back, .btn-next, .btn-submit { width: 100%; justify-content: center; }
+}
 </style>
 </head>
 <body>
 
-<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+<div id="progress-bar"><div id="progress-fill"></div></div>
 
 <div class="wrap">
 
@@ -341,14 +478,14 @@ body::before {
   </div>
 
   <!-- LANDING -->
-  <div class="screen active" id="screen-landing">
+  <div class="screen active" id="screen-land">
     <div class="landing">
       <div class="landing-eyebrow">Your personal offsite</div>
       <h1 class="landing-title">Fieldwork<em>VK</em></h1>
       <div class="landing-sub">850 acres. 48 hours. One question worth answering.</div>
       <div class="landing-rule"></div>
       <p class="landing-body">
-        What you fill in here shapes the next three days of your life. Not in a general sense — specifically. <strong>The trails you walk, the spaces you spend time in, the practices woven through your agenda</strong> — all of it is drawn from what you share below.<br><br>
+        What you fill in here shapes your experience. Not in a general sense — specifically. <strong>The trails you walk, the spaces you spend time in, the practices woven through your agenda</strong> — all of it is drawn from what you share below.<br><br>
         Take your time. There are no right answers. The more honest you are, the better the design.
       </p>
       <button class="btn-primary" onclick="startForm()">Begin <span class="arrow">→</span></button>
@@ -362,356 +499,344 @@ body::before {
   <div class="screen" id="screen-form">
     <div class="form-screen">
 
-      <!-- STEP 0: Basics -->
-      <div class="step" id="step-0">
-        <div class="step-header">
-          <div class="step-number">Before We Begin</div>
-          <h2 class="step-title">A few <em>basics</em></h2>
-          <p class="step-desc">Your name, when you're arriving, and where you'll be staying.</p>
-        </div>
+  <!-- STEP 0 · Operational Fields -->
+  <div class="step" id="step-0">
+    <div class="wrap">
+      <div class="section-label">Before we begin</div>
+      <h2 class="step-title">Your visit</h2>
+      <p class="step-desc">A few details so we can orient your Field Guide to the right time, place, and person.</p>
 
-        <div class="field-group">
-          <label class="field-label" for="guestName">Your name</label>
-          <input type="text" class="field-input" id="guestName" placeholder="First and last name">
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" id="f-name" placeholder="First and last name">
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Arrival date</label>
+          <input type="date" id="f-arrival">
         </div>
-
-        <div class="field-row">
-          <div class="field-group">
-            <label class="field-label" for="arrivalDate">Arrival date</label>
-            <input type="date" class="field-input" id="arrivalDate">
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="departureDate">Departure date</label>
-            <input type="date" class="field-input" id="departureDate">
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">Your lodge</label>
-          <select class="field-select" id="lodge">
-            <option value="">Select a lodge…</option>
-            <option value="The Boathouse">The Boathouse — lakefront, private dock, panoramic water views</option>
-            <option value="Langston Cottage">Langston Cottage — one room, lake views, soaking tub, book nook</option>
-            <option value="Wohlleben Cabin">Wohlleben Cabin — deep forest, maximum solitude, pet friendly</option>
-            <option value="Frank Soule Lodge">Frank Soule Lodge — the original 1910 cottage, sleeps 16, lakefront</option>
-            <option value="Grace Manor">Grace Manor — 9 ensuite rooms, hot tub, back fire pit, front lake views</option>
-          </select>
-        </div>
-
-        <div class="step-nav">
-          <span></span>
-          <button class="btn-primary" onclick="nextStep(0)">Continue <span class="arrow">→</span></button>
+        <div class="field">
+          <label>Departure date</label>
+          <input type="date" id="f-departure">
         </div>
       </div>
-
-      <!-- STEP 1: Intention -->
-      <div class="step" id="step-1">
-        <div class="step-header">
-          <div class="step-number">Section One of Four</div>
-          <h2 class="step-title">Your <em>intention</em></h2>
-          <p class="step-desc">What's bringing you here. There's no wrong answer — and the more honest you are, the better this works.</p>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label" for="q1">What's bringing you to Vanderkamp right now?</label>
-          <div class="field-sublabel">Not the calendar reason — the real one. What's sitting with you that needs some room?</div>
-          <textarea class="field-textarea" id="q1" placeholder="Write as much or as little as feels right…" style="min-height:140px"></textarea>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label" for="q2">What would a genuinely great outcome look like?</label>
-          <div class="field-sublabel">Not what you should want — what you'd actually feel if these three days worked.</div>
-          <textarea class="field-textarea" id="q2" placeholder="I'd leave feeling…  /  I'd have clarity on…  /  Something would have shifted…"></textarea>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label" for="q3">What's the biggest obstacle right now?</label>
-          <div class="field-sublabel">The thing that makes the question hard. What keeps getting in the way.</div>
-          <textarea class="field-textarea" id="q3" placeholder="Optional — but often the most useful thing to share"></textarea>
-        </div>
-
-        <div class="step-nav">
-          <button class="btn-secondary" onclick="prevStep(1)">← Back</button>
-          <button class="btn-primary" onclick="nextStep(1)">Continue <span class="arrow">→</span></button>
-        </div>
+      <div class="field">
+        <label>Your lodge</label>
+        <select id="f-lodge">
+          <option value="">Select your lodge</option>
+          <option value="The Boathouse">The Boathouse</option>
+          <option value="Langston Cottage">Langston Cottage</option>
+          <option value="Wohlleben Cabin">Wohlleben Cabin</option>
+          <option value="Frank Soule Lodge">Frank Soule Lodge</option>
+          <option value="Grace Manor">Grace Manor</option>
+        </select>
       </div>
-
-      <!-- STEP 2: Approach -->
-      <div class="step" id="step-2">
-        <div class="step-header">
-          <div class="step-number">Section Two of Four</div>
-          <h2 class="step-title">How you <em>open</em></h2>
-          <p class="step-desc">Everyone finds their way to stillness differently. These questions help us design around how you actually work — not how you think you should.</p>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">How does your mind most naturally quiet down?</label>
-          <div class="field-sublabel">Pick the one that feels most true — not aspirational.</div>
-          <div class="choice-grid cols-2">
-            <label class="choice-card" onclick="selectChoice(this,'q4')">
-              <input type="radio" name="q4" value="Moving — walking, running, physical activity">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Moving</span>
-              <span class="choice-desc">Walking, running, physical activity</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q4')">
-              <input type="radio" name="q4" value="Watching — sitting still and observing the world">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Watching</span>
-              <span class="choice-desc">Sitting still and observing</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q4')">
-              <input type="radio" name="q4" value="Listening — to sound, music, or the ambient world">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Listening</span>
-              <span class="choice-desc">Sound, music, the ambient world</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q4')">
-              <input type="radio" name="q4" value="Writing or thinking — working things out on paper">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Writing / thinking</span>
-              <span class="choice-desc">Working things out on paper</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">Where are you starting from right now?</label>
-          <div class="field-sublabel">Your honest nervous system state coming in — not how you want to feel, how you actually feel today.</div>
-          <div id="scaleDisplay">Select a number</div>
-          <div class="scale-track" id="scaleTrack">
-            <div class="scale-dot" data-val="1" onclick="selectScale(1)">1</div>
-            <div class="scale-dot" data-val="2" onclick="selectScale(2)">2</div>
-            <div class="scale-dot" data-val="3" onclick="selectScale(3)">3</div>
-            <div class="scale-dot" data-val="4" onclick="selectScale(4)">4</div>
-            <div class="scale-dot" data-val="5" onclick="selectScale(5)">5</div>
-            <div class="scale-dot" data-val="6" onclick="selectScale(6)">6</div>
-            <div class="scale-dot" data-val="7" onclick="selectScale(7)">7</div>
-            <div class="scale-dot" data-val="8" onclick="selectScale(8)">8</div>
-            <div class="scale-dot" data-val="9" onclick="selectScale(9)">9</div>
-            <div class="scale-dot" data-val="10" onclick="selectScale(10)">10</div>
-          </div>
-          <div class="scale-labels">
-            <span>Running on empty</span>
-            <span>Buzzing, hard to land</span>
-          </div>
-          <input type="hidden" id="q5" value="">
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">Experience with deliberate attention practices?</label>
-          <div class="field-sublabel">Meditation, journaling, contemplative practices — anything intentional around where you direct your mind.</div>
-          <div class="choice-grid">
-            <label class="choice-card" onclick="selectChoice(this,'q6')">
-              <input type="radio" name="q6" value="New to this — or returning after a long gap">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">New to this</span>
-              <span class="choice-desc">Or returning after a long gap</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q6')">
-              <input type="radio" name="q6" value="Some experience — occasional practice, know the basics">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Some experience</span>
-              <span class="choice-desc">Occasional practice, know the basics</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q6')">
-              <input type="radio" name="q6" value="Regular practice — already part of my life">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Regular practice</span>
-              <span class="choice-desc">Already part of my life</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">How do you prefer to work with ideas?</label>
-          <div class="field-sublabel">Helps calibrate how frameworks and practices are introduced.</div>
-          <div class="choice-grid cols-3">
-            <label class="choice-card" onclick="selectChoice(this,'q7')">
-              <input type="radio" name="q7" value="Concrete — give me the tool and the steps">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Concrete</span>
-              <span class="choice-desc">Give me the tool and the steps</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q7')">
-              <input type="radio" name="q7" value="Mixed — some structure, some open exploration">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Mixed</span>
-              <span class="choice-desc">Some structure, some exploration</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q7')">
-              <input type="radio" name="q7" value="Open — point me toward the question and let me find it">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Open</span>
-              <span class="choice-desc">Point me toward the question</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="step-nav">
-          <button class="btn-secondary" onclick="prevStep(2)">← Back</button>
-          <button class="btn-primary" onclick="nextStep(2)">Continue <span class="arrow">→</span></button>
-        </div>
+      <div class="step-nav">
+        <span></span>
+        <button class="btn-next" onclick="nextStep(0)">Continue →</button>
       </div>
-
-      <!-- STEP 3: Practical -->
-      <div class="step" id="step-3">
-        <div class="step-header">
-          <div class="step-number">Section Three of Four</div>
-          <h2 class="step-title">The <em>practical</em></h2>
-          <p class="step-desc">A few details that help us design around you — not an ideal version of you.</p>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label" for="q8">Physical comfort and mobility</label>
-          <div class="field-sublabel">Anything to build around? Injuries, limitations, things to avoid.</div>
-          <textarea class="field-textarea" id="q8" placeholder="e.g. No significant limitations  /  Bad left knee, avoid steep descents  /  Recovering from surgery" style="min-height:90px"></textarea>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label" for="q9">What are you most ready to work on?</label>
-          <div class="field-sublabel">Of everything you're carrying — what feels most ripe?</div>
-          <textarea class="field-textarea" id="q9" placeholder="The thing that feels most ready to move…"></textarea>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">How are you arriving?</label>
-          <div class="field-sublabel">Shapes your pre-arrival experience and the drive in.</div>
-          <div class="choice-grid cols-2">
-            <label class="choice-card" onclick="selectChoice(this,'q10arrival')">
-              <input type="radio" name="q10arrival" value="Driving alone">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Driving alone</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q10arrival')">
-              <input type="radio" name="q10arrival" value="Driving with someone">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Driving with someone</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q10arrival')">
-              <input type="radio" name="q10arrival" value="Flying in or rideshare">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Flying in / rideshare</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q10arrival')">
-              <input type="radio" name="q10arrival" value="Not sure yet">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Not sure yet</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label" for="q10diet">Dietary notes</label>
-          <div class="field-sublabel">Allergies, preferences, anything the kitchen should know.</div>
-          <input type="text" class="field-input" id="q10diet" placeholder="e.g. Vegetarian  /  Gluten-free  /  No restrictions  /  Nut allergy">
-        </div>
-
-        <div class="step-nav">
-          <button class="btn-secondary" onclick="prevStep(3)">← Back</button>
-          <button class="btn-primary" onclick="nextStep(3)">Continue <span class="arrow">→</span></button>
-        </div>
-      </div>
-
-      <!-- STEP 4: Final -->
-      <div class="step" id="step-4">
-        <div class="step-header">
-          <div class="step-number">Section Four of Four</div>
-          <h2 class="step-title">Last <em>things</em></h2>
-          <p class="step-desc">One open question. Anything you share here goes directly to your coach before the pre-arrival call.</p>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label" for="q11">Is there anything your coach should know before you arrive?</label>
-          <div class="field-sublabel">Context, history, sensitivities, something you're hoping for — or leave it blank.</div>
-          <textarea class="field-textarea" id="q11" placeholder="Anything at all — or leave this blank if nothing comes to mind." style="min-height:140px"></textarea>
-        </div>
-
-        <div class="field-divider"></div>
-
-        <div class="field-group">
-          <label class="field-label">One last thing — how would you describe yourself?</label>
-          <div class="field-sublabel">Calibrates tone and depth throughout your Field Guide.</div>
-          <div class="choice-grid cols-2">
-            <label class="choice-card" onclick="selectChoice(this,'q12')">
-              <input type="radio" name="q12" value="Practically-minded — I want tools and clarity, not metaphor">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Practically-minded</span>
-              <span class="choice-desc">Tools and clarity over metaphor</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q12')">
-              <input type="radio" name="q12" value="Somewhere in between — open to both">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Somewhere in between</span>
-              <span class="choice-desc">Open to both</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q12')">
-              <input type="radio" name="q12" value="Spiritually-oriented — comfortable with depth, symbolism, and meaning-making">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Spiritually-oriented</span>
-              <span class="choice-desc">Comfortable with depth and meaning-making</span>
-            </label>
-            <label class="choice-card" onclick="selectChoice(this,'q12')">
-              <input type="radio" name="q12" value="Not sure yet — let the experience tell me">
-              <div class="choice-check">✓</div>
-              <span class="choice-label">Not sure yet</span>
-              <span class="choice-desc">Let the experience show me</span>
-            </label>
-          </div>
-        </div>
-
-        <div id="errorBox" class="error-box"></div>
-
-        <div class="step-nav">
-          <button class="btn-secondary" onclick="prevStep(4)">← Back</button>
-          <button class="btn-primary" onclick="submitForm()">Generate Field Guide <span class="arrow">→</span></button>
-        </div>
-      </div>
-
     </div>
   </div>
 
+  <!-- STEP 1 · Section A: The Reason -->
+  <div class="step" id="step-1">
+    <div class="wrap">
+      <div class="section-label">Section A — The Reason</div>
+      <h2 class="step-title">What's bringing you</h2>
+      <p class="step-desc">These four questions help us understand the nature of what you're carrying — and how to design around it.</p>
+
+      <!-- Q1 -->
+      <div class="q-label">Q1 — The open door</div>
+      <div class="q-text">What's bringing you to Vanderkamp right now?</div>
+      <div class="q-hint">Not the calendar reason — the real one. What's sitting with you that needs some room?</div>
+      <div class="field">
+        <textarea id="q1" placeholder="Write as much or as little as feels right…" rows="4"></textarea>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q2 -->
+      <div class="q-label">Q2 — The territory</div>
+      <div class="q-text">Which of these comes closest to where you are right now?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q2" value="Crossroads"><span class="card-body"><strong>Facing a decision</strong>Something is shifting and I need to figure out which way to go.</span></label>
+        <label class="choice-card"><input type="radio" name="q2" value="Stuck Place"><span class="card-body"><strong>Something feels stuck</strong>I know what I want but can't seem to move. Or I've been going in circles.</span></label>
+        <label class="choice-card"><input type="radio" name="q2" value="Passage"><span class="card-body"><strong>Something is ending</strong>Something significant has ended or is ending. I'm finding my way through it.</span></label>
+        <label class="choice-card"><input type="radio" name="q2" value="Strategic Question"><span class="card-body"><strong>A specific question</strong>I have a specific question or challenge I need to think through without distractions.</span></label>
+        <label class="choice-card"><input type="radio" name="q2" value="Deeper Ask"><span class="card-body"><strong>Searching for something deeper</strong>Meaning, direction, or a sense of connection that's been missing.</span></label>
+        <label class="choice-card"><input type="radio" name="q2" value="Restoration"><span class="card-body"><strong>Running on empty</strong>I need to step back and remember what matters to me.</span></label>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q3 -->
+      <div class="q-label">Q3 — The weight</div>
+      <div class="q-text">How long have you been carrying this?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q3" value="Recent"><span class="card-body">It's recent — something in the last few weeks or months brought it into focus.</span></label>
+        <label class="choice-card"><input type="radio" name="q3" value="Building"><span class="card-body">It's been building for a while. Months, maybe longer.</span></label>
+        <label class="choice-card"><input type="radio" name="q3" value="Long time"><span class="card-body">This has been with me for a long time. I've just never had the space to face it.</span></label>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q4 -->
+      <div class="q-label">Q4 — The second thread (optional)</div>
+      <div class="q-text">Is there a second thread?</div>
+      <div class="q-hint">Some people come with one clear question. Others feel a few things tangled together. If there's something else underneath, name it here. Leave blank if not.</div>
+      <div class="field">
+        <textarea id="q4" placeholder="Optional — one or two sentences…" rows="3"></textarea>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="prevStep(1)">← Back</button>
+        <button class="btn-next" onclick="nextStep(1)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 · Section B: How You Move -->
+  <div class="step" id="step-2">
+    <div class="wrap">
+      <div class="section-label">Section B — How You Move Through the World</div>
+      <h2 class="step-title">Your nature</h2>
+      <p class="step-desc">Four questions about how you naturally find your way to stillness — or don't. There's no right answer here. We're mapping the terrain.</p>
+
+      <!-- Q5 -->
+      <div class="q-label">Q5 — The sensory doorway</div>
+      <div class="q-text">When you imagine a place where your mind has gone quiet, what do you notice first?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q5" value="Visual"><span class="card-body"><strong>What I see</strong>The light, the color, how the space looks.</span></label>
+        <label class="choice-card"><input type="radio" name="q5" value="Auditory"><span class="card-body"><strong>What I hear</strong>The sounds of the place, or the absence of them.</span></label>
+        <label class="choice-card"><input type="radio" name="q5" value="Kinesthetic"><span class="card-body"><strong>What my body feels</strong>Temperature, texture, movement.</span></label>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q6 -->
+      <div class="q-label">Q6 — The pace</div>
+      <div class="q-text">Right now, in this season of your life — how fast is your mind moving?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q6" value="Calm"><span class="card-body">Relatively calm. I have things on my mind, but I can settle when I want to.</span></label>
+        <label class="choice-card"><input type="radio" name="q6" value="Busy"><span class="card-body">Busy. Multiple tracks running. Takes a while to quiet down.</span></label>
+        <label class="choice-card"><input type="radio" name="q6" value="Racing"><span class="card-body">Racing. Feels like it won't turn off, even when I try to rest.</span></label>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q7 -->
+      <div class="q-label">Q7 — The stillness question</div>
+      <div class="q-text">How do you feel about unstructured time — no plan, nowhere to be, nothing required of you?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q7" value="At ease"><span class="card-body">At ease. Unstructured time is one of my favorite things.</span></label>
+        <label class="choice-card"><input type="radio" name="q7" value="Can find it"><span class="card-body">I can find my way into it. Takes a little settling, but I get there.</span></label>
+        <label class="choice-card"><input type="radio" name="q7" value="Difficult"><span class="card-body">Honestly difficult. I tend to fill it. An empty afternoon makes me uncomfortable.</span></label>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q8 -->
+      <div class="q-label">Q8 — Nature familiarity</div>
+      <div class="q-text">How much time do you usually spend outdoors — in forests, near water, on trails?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q8" value="Regular"><span class="card-body">A lot. I seek it out regularly. Nature is already part of how I restore.</span></label>
+        <label class="choice-card"><input type="radio" name="q8" value="Some"><span class="card-body">Some. When I get the chance. I'm comfortable out there but it's not a regular practice.</span></label>
+        <label class="choice-card"><input type="radio" name="q8" value="Not much"><span class="card-body">Not much. Being in this kind of environment is different for me.</span></label>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="prevStep(2)">← Back</button>
+        <button class="btn-next" onclick="nextStep(2)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 · Section C: Experience -->
+  <div class="step" id="step-3">
+    <div class="wrap">
+      <div class="section-label">Section C — Your Experience</div>
+      <h2 class="step-title">How you work</h2>
+      <p class="step-desc">Five questions that shape the register, depth, and tone of your Field Guide.</p>
+
+      <!-- Q9 -->
+      <div class="q-label">Q9 — Readiness</div>
+      <div class="q-text">What are you most ready for on this retreat?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q9" value="Challenge"><span class="card-body">Honest challenge. I want to be pushed a little — something that asks more of me, not less.</span></label>
+        <label class="choice-card"><input type="radio" name="q9" value="Mixed"><span class="card-body">A mix. Some stretching, some recovery. I'll know what I need when I get there.</span></label>
+        <label class="choice-card"><input type="radio" name="q9" value="Gentleness"><span class="card-body">Gentleness. I'm already at my edge. I need this to feel like support, not pressure.</span></label>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q10 -->
+      <div class="q-label">Q10 — Your experience</div>
+      <div class="q-text">Have you ever had a deliberate practice around attention — meditation, journaling, contemplative work of any kind?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q10" value="Tier 3"><span class="card-body">Yes — I have or have had a regular practice. This is familiar territory.</span></label>
+        <label class="choice-card"><input type="radio" name="q10" value="Tier 2"><span class="card-body">Some — I've tried things, had phases, but it's not consistent or ongoing.</span></label>
+        <label class="choice-card"><input type="radio" name="q10" value="Tier 1"><span class="card-body">Not really. This is new or mostly unfamiliar territory for me.</span></label>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q11 -->
+      <div class="q-label">Q11 — Voice</div>
+      <div class="q-text">When you imagine reading something that actually helps you think clearly, what does it sound like?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q11" value="Sparse"><span class="card-body"><strong>Sparse and direct</strong>Short sentences. Room between them. Don't explain what I'm supposed to feel.</span></label>
+        <label class="choice-card"><input type="radio" name="q11" value="Warm"><span class="card-body"><strong>Warm and guiding</strong>Like someone who knows the terrain and is walking alongside me.</span></label>
+        <label class="choice-card"><input type="radio" name="q11" value="Evidence"><span class="card-body"><strong>Grounded in evidence</strong>Tell me what the research says. Help me understand why this works.</span></label>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q12 -->
+      <div class="q-label">Q12 — The natural world</div>
+      <div class="q-text">How do you tend to relate to nature and the natural world?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q12" value="Practical"><span class="card-body">Practically. I appreciate it for what it is — fresh air, good for the body. I'm not looking for deeper meaning in a tree.</span></label>
+        <label class="choice-card"><input type="radio" name="q12" value="Middle"><span class="card-body">Somewhere in between. I notice things. I'm open to what the environment offers.</span></label>
+        <label class="choice-card"><input type="radio" name="q12" value="Resonant"><span class="card-body">Meaningfully. I find the natural world genuinely resonant — patterns, metaphors, connections. Nature has been a place of insight for me.</span></label>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q13 -->
+      <div class="q-label">Q13 — Format</div>
+      <div class="q-text">Would you like to work with a coach during your time here, or move through it on your own?</div>
+      <div class="choices" style="margin-top:0.8rem">
+        <label class="choice-card"><input type="radio" name="q13" value="Coaching"><span class="card-body"><strong>With a coaching call</strong>Having a thinking partner would be valuable.</span></label>
+        <label class="choice-card"><input type="radio" name="q13" value="Self-guided"><span class="card-body"><strong>Self-guided</strong>I'd rather move through it on my own terms.</span></label>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="prevStep(3)">← Back</button>
+        <button class="btn-next" onclick="nextStep(3)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 · Section D: Echo Moment -->
+  <div class="step" id="step-4">
+    <div class="wrap">
+      <div class="section-label">Section D — The Echo Moment</div>
+      <h2 class="step-title">Something lost</h2>
+      <p class="step-desc">One question. It shapes something quiet in your Field Guide — something placed in your path rather than explained to you.</p>
+
+      <!-- Q14 -->
+      <div class="q-label">Q14 — The lost thing</div>
+      <div class="q-text">What's something you used to love doing that's quietly disappeared from your life?</div>
+      <div class="q-hint">A sentence or two is plenty.</div>
+      <div class="field">
+        <textarea id="q14" placeholder="Take your time with this one…" rows="4"></textarea>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="prevStep(4)">← Back</button>
+        <button class="btn-next" onclick="nextStep(4)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 · Section E: Practical -->
+  <div class="step" id="step-5">
+    <div class="wrap">
+      <div class="section-label">Section E — Practical Details</div>
+      <h2 class="step-title">A few last things</h2>
+      <p class="step-desc">These go to the team and your coach. They don't change your Field Guide directly — but they help us take care of you well.</p>
+
+      <!-- Q15 -->
+      <div class="q-label">Q15 — Physical notes</div>
+      <div class="q-text">Anything we should know about physical comfort or mobility?</div>
+      <div class="q-hint">Injuries, limitations, things to build around. "No limitations" works too.</div>
+      <div class="field">
+        <textarea id="q15" placeholder="Physical notes…" rows="3"></textarea>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q16 -->
+      <div class="q-label">Q16 — Dietary notes</div>
+      <div class="q-text">Any dietary needs, allergies, or preferences the kitchen should know about?</div>
+      <div class="q-hint">"No restrictions" is a perfectly good answer.</div>
+      <div class="field">
+        <textarea id="q16" placeholder="Dietary notes…" rows="3"></textarea>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q17 -->
+      <div class="q-label">Q17 — Open channel (optional)</div>
+      <div class="q-text">Is there anything your coach should know before you arrive?</div>
+      <div class="q-hint">Context, history, sensitivities, something you're hoping for. Leave blank if nothing comes to mind.</div>
+      <div class="field">
+        <textarea id="q17" placeholder="Optional — anything your coach should know…" rows="4"></textarea>
+      </div>
+
+      <div id="error-box" class="error-box"></div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="prevStep(5)">← Back</button>
+        <button class="btn-submit" onclick="submitIntake()">Generate My Field Guide →</button>
+      </div>
+    </div>
+  </div>
+
+    </div><!-- /.form-screen -->
+  </div><!-- /#screen-form -->
+
   <!-- GENERATING -->
-  <div class="screen" id="screen-generating">
-    <div class="gen-screen">
-      <div class="gen-icon">◈</div>
-      <h2 class="gen-title">Building your Field Guide</h2>
-      <p class="gen-sub">Reading your responses &nbsp;·&nbsp; Mapping the property &nbsp;·&nbsp; Designing your sequence</p>
-      <div class="gen-progress"><div class="gen-progress-fill"></div></div>
+  <div class="screen" id="screen-gen">
+    <div class="wrap">
+      <div class="gen-screen" style="text-align:center;padding:100px 0">
+        <div class="gen-mark">FieldworkVK</div>
+        <div class="gen-icon">◈</div>
+        <h2 class="gen-title">Building your Field Guide…</h2>
+        <p class="gen-sub">Reading your answers. Mapping your territory. This takes about 30 seconds.</p>
+        <div class="gen-dots">
+          <div class="gen-dot"></div>
+          <div class="gen-dot"></div>
+          <div class="gen-dot"></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- RESULT -->
   <div class="screen" id="screen-result">
-    <div class="result-screen">
+    <div class="wrap">
       <div class="result-header">
-        <div class="result-eyebrow">Field Guide Draft — Ready for Coach Review</div>
-        <h2 class="result-title" id="resultGuestName">Field Guide</h2>
-        <div class="result-sub" id="resultDates"></div>
+        <div class="result-eyebrow">FieldworkVK — Field Guide</div>
+        <div class="result-title" id="result-title">Your Field Guide</div>
       </div>
-      <div class="result-signals" id="resultSignals"></div>
-      <div class="result-body" id="resultContent"></div>
-      <div class="result-actions">
-        <button class="btn-primary" onclick="copyResult()">Copy to clipboard <span class="arrow">↗</span></button>
-        <button class="btn-ghost" onclick="downloadResult()">Download .txt</button>
-        <button class="btn-secondary" onclick="startOver()">New intake →</button>
+      <div class="result-inner">
+        <div class="result-signals">
+          <strong>Signal Interpretation</strong>
+          <pre id="signal-text"></pre>
+        </div>
+        <div class="result-body" id="guide-text"></div>
+        <div class="result-actions">
+          <button class="btn-primary" onclick="copyGuide()">Copy to Clipboard <span class="arrow">→</span></button>
+          <button class="btn-ghost" onclick="downloadGuide()">Download .txt</button>
+          <button class="btn-ghost" onclick="startOver()">New Intake</button>
+        </div>
       </div>
     </div>
   </div>
 
-</div>
+</div><!-- /.wrap -->
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
-// Optionally pre-fill API key (keep repo PRIVATE if you do):
-const API_KEY_DEFAULT = 'sk-ant-api03-...';
+const API_KEY = '';   // ← paste your Anthropic API key between these quotes
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
-let scaleValue = null;
-let resultText = '';
-let guestNameGlobal = '';
+let currentStep = 0;
+let fullGuideText = '';
+let guestName = '';
 
-// ─── SCREENS ─────────────────────────────────────────────────────────────────
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
@@ -726,8 +851,9 @@ function startForm() {
 function showStep(n) {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('step-' + n).classList.add('active');
-  const pct = (n / 5) * 100;
-  document.getElementById('progressFill').style.width = pct + '%';
+  currentStep = n;
+  const pct = (n / 6) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -736,314 +862,283 @@ function nextStep(from) {
   showStep(from + 1);
 }
 function prevStep(from) { showStep(from - 1); }
+function startOver() { showScreen('land'); }
 
 // ─── VALIDATION ───────────────────────────────────────────────────────────────
 function validateStep(n) {
+  const err = (msg) => { alert(msg); return false; };
+
   if (n === 0) {
-    const key = API_KEY_DEFAULT;
-    if (!key) { alert('Configuration error: API key not set. Contact Vanderkamp.'); return false; }
-    if (!document.getElementById('guestName').value.trim()) { alert('Please enter the guest name.'); return false; }
-    if (!document.getElementById('arrivalDate').value) { alert('Please enter an arrival date.'); return false; }
-    if (!document.getElementById('departureDate').value) { alert('Please enter a departure date.'); return false; }
-    if (!document.getElementById('lodge').value) { alert('Please select a lodge.'); return false; }
+    if (!document.getElementById('f-name').value.trim()) return err('Please enter your name.');
+    if (!document.getElementById('f-arrival').value) return err('Please enter your arrival date.');
+    if (!document.getElementById('f-departure').value) return err('Please enter your departure date.');
+    if (!document.getElementById('f-lodge').value) return err('Please select your lodge.');
   }
   if (n === 1) {
-    if (!document.getElementById('q1').value.trim()) { alert('Please share what\'s bringing you to Vanderkamp.'); return false; }
-    if (!document.getElementById('q2').value.trim()) { alert('Please describe what a great outcome looks like.'); return false; }
+    if (!document.getElementById('q1').value.trim()) return err('Please share what\'s bringing you here (Q1).');
+    if (!document.querySelector('input[name="q2"]:checked')) return err('Please select which territory fits best (Q2).');
+    if (!document.querySelector('input[name="q3"]:checked')) return err('Please select how long you\'ve been carrying this (Q3).');
   }
   if (n === 2) {
-    if (!document.querySelector('input[name="q4"]:checked')) { alert('Please select how your mind most naturally quiets.'); return false; }
-    if (!scaleValue) { alert('Please select a number on the scale.'); return false; }
-    if (!document.querySelector('input[name="q6"]:checked')) { alert('Please select your experience level.'); return false; }
-    if (!document.querySelector('input[name="q7"]:checked')) { alert('Please select how you prefer to work with ideas.'); return false; }
+    if (!document.querySelector('input[name="q5"]:checked')) return err('Please select your sensory doorway (Q5).');
+    if (!document.querySelector('input[name="q6"]:checked')) return err('Please select how fast your mind is moving (Q6).');
+    if (!document.querySelector('input[name="q7"]:checked')) return err('Please select how you feel about unstructured time (Q7).');
+    if (!document.querySelector('input[name="q8"]:checked')) return err('Please select your nature familiarity (Q8).');
+  }
+  if (n === 3) {
+    if (!document.querySelector('input[name="q9"]:checked')) return err('Please select what you\'re most ready for (Q9).');
+    if (!document.querySelector('input[name="q10"]:checked')) return err('Please select your experience level (Q10).');
+    if (!document.querySelector('input[name="q11"]:checked')) return err('Please select your voice preference (Q11).');
+    if (!document.querySelector('input[name="q12"]:checked')) return err('Please select how you relate to the natural world (Q12).');
+    if (!document.querySelector('input[name="q13"]:checked')) return err('Please select your format preference (Q13).');
+  }
+  if (n === 4) {
+    if (!document.getElementById('q14').value.trim()) return err('Please answer the lost thing question (Q14) — it shapes something important in your Field Guide.');
   }
   return true;
 }
 
-// ─── INTERACTIONS ─────────────────────────────────────────────────────────────
-function selectChoice(card, name) {
-  card.closest('.choice-grid').querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  card.querySelector('input').checked = true;
+// ─── COLLECT RESPONSES ────────────────────────────────────────────────────────
+function collectResponses() {
+  const g = (id) => (document.getElementById(id)?.value || '').trim();
+  const r = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value || '';
+  return {
+    name:       g('f-name'),
+    arrival:    g('f-arrival'),
+    departure:  g('f-departure'),
+    lodge:      g('f-lodge'),
+    q1:         g('q1'),
+    q2:         r('q2'),
+    q3:         r('q3'),
+    q4:         g('q4'),
+    q5:         r('q5'),
+    q6:         r('q6'),
+    q7:         r('q7'),
+    q8:         r('q8'),
+    q9:         r('q9'),
+    q10:        r('q10'),
+    q11:        r('q11'),
+    q12:        r('q12'),
+    q13:        r('q13'),
+    q14:        g('q14'),
+    q15:        g('q15'),
+    q16:        g('q16'),
+    q17:        g('q17'),
+  };
 }
 
-const scaleLabels = {
-  1:'Running on empty — deeply depleted',2:'Very low energy',
-  3:'Tired and stretched thin',4:'Getting by, some fatigue',
-  5:'Baseline — functional but not rested',6:'Reasonably well, some edge',
-  7:'Good energy, some background hum',8:'High energy, a bit wired',
-  9:'Very activated, mind running fast',10:'Buzzing — hard to land'
-};
-function selectScale(val) {
-  scaleValue = val;
-  document.getElementById('q5').value = val + ' — ' + scaleLabels[val];
-  document.querySelectorAll('.scale-dot').forEach(d => d.classList.toggle('selected', +d.dataset.val === val));
-  const el = document.getElementById('scaleDisplay');
-  el.textContent = val + ' — ' + scaleLabels[val];
-  el.style.color = 'var(--pale-sage)';
+// ─── PATHWAY ROUTING ─────────────────────────────────────────────────────────
+function routePathway(q6, q7, q8) {
+  let a = 0, b = 0, c = 0;
+  if (q6 === 'Calm') a++; else if (q6 === 'Busy') b++; else c++;
+  if (q7 === 'At ease') a++; else if (q7 === 'Can find it') b++; else c++;
+  if (q8 === 'Regular') a++; else if (q8 === 'Some') b++; else c++;
+  if (c >= 2 || (q7 === 'Difficult') || (q8 === 'Not much' && q7 !== 'At ease')) return 'C (Arrivers)';
+  if (a >= 2) return 'A (Quiet Ones)';
+  return 'B (Movers)';
+}
+
+// ─── BUILD PROMPT ────────────────────────────────────────────────────────────
+function buildPrompt(r) {
+  const pathway = routePathway(r.q6, r.q7, r.q8);
+  const arrivalDate = new Date(r.arrival);
+  const month = arrivalDate.toLocaleString('default', { month: 'long' });
+  const season = ['December','January','February'].includes(month) ? 'Winter' :
+                 ['March','April','May'].includes(month) ? 'Spring' :
+                 ['June','July','August'].includes(month) ? 'Summer' : 'Fall';
+
+  return `You are the FieldworkVK Field Guide Generator. You create personalized 48-hour retreat guides for guests at Vanderkamp — 850 acres of protected wilderness in upstate New York.
+
+PHILOSOPHY
+The guest already holds the wisdom they're seeking. Your job is to create a trail of discoveries, not a set of instructions. Write as if you know this person and care why they're here. The guest should feel understood, not assessed.
+
+VOICE RULES
+- Never use the word "journey" or "path" metaphorically
+- Never say "I invite you to..." or "take a moment to..."
+- Never use clinical language or coaching jargon
+- Never explain the symbolism — let it land or not
+- Write to the guest directly in second person
+- Apply voice register Q11 (${r.q11}) throughout every word you write:
+  * Sparse/Direct: short sentences, room between them, no explanation of what they should feel
+  * Warm/Guiding: conversational, present, like a letter from someone who knows you're here
+  * Evidence-grounded: science framing woven in naturally, not as footnotes
+
+SYMBOLISM CALIBRATION (Q12: ${r.q12})
+- Practical: keep metaphor at zero or hint level. Describe what the environment does, not what it means.
+- Middle: one resonant line per space entry, nothing more
+- Resonant: nature can be explicit teacher and co-facilitator
+
+TIER CALIBRATION (Q10: ${r.q10})
+- Tier 3 (regular practice): spacious and trusting. Question arrives, room follows. No preamble.
+- Tier 2 (some experience): brief orientation before each discovery question, then space
+- Tier 1 (new to this): full scaffolding. Tell them where to sit, what to notice first, how to work with the mind when it wanders.
+
+PROPERTY — KEY SPACES
+Forest Drive (arrival, threshold crossing), The Beach (open sky, sunrise/sunset, horizon), The Dock (liminal, forward-facing, decisions), On the Water (kayak/canoe/SUP, rhythm, agency), The Floating Dock (apartness, surrender, trust), Orange Trail (2.4mi, challenging, route-finding, adventure, Mallard Pond reward), Blue Trail (1.7mi, moderate, pine grove, bridge over water, perspective hill, Forest Immersion signage), Yellow Trail (1.8mi, easy, lake walk, cobblestone dams, Crandell Creek), Green Trail (2.1mi, wetlands, ferns, boardwalks, wildness), Pine Forest Zone (densest phytoncides, near silence, sanctuary), Blue Trail Bridge (running water, letting go, flow), Cobblestone Dams (persistence, legacy, patience), Mallard Pond (earned reward, beaver dam, hidden beauty), Hammock Grove (surrender, permission to rest), Meditation Labyrinth (walking meditation, no wrong turns, ritual), Forest Venue (outdoor meeting room, sand/moss floor), The Last Chestnuts (resilience, relentless return, identity), The Hill (perspective, elevation, overview), The Ferns (primordial, timelessness, wonder), The Field — west end (decision point, openness, sky), Sled Hill (play, joy, breaking patterns), Steam Sauna (purification, contrast therapy), Cold Plunge (courage, reset, presence), Salt-Wall Meditation Room (sanctuary, adjustable atmosphere, guided meditation iPad available), White Pine Lounge (integration, pine tea, transition), Fitness Room (movement, routine maintenance), Kempwick Fireplace Lounge (permission, warmth, unstructured), Kempwick Bar (designated digital window), Sunken Fire Pit (gathering, storytelling, historical stone, stargazing), Boathouse (water lodge, private dock, hammock), Langston Cottage (one room, lake views, soaking tub, book nook), Wohlleben Cabin (deepest forest, solitude, pet friendly), Frank Soule Lodge (largest, lakefront, shared cooking), Grace Manor (20 guests, ensuite, hot tub, fire pit, front and back decks)
+
+TERRITORY → FRAMEWORK MAPPING
+- Crossroads: Odyssey Plans (Burnett & Evans) or WRAP Decision Framework
+- Stuck Place: Immunity to Change Map (Kegan) or Fear-Setting
+- Passage: Bridges' Transitions Model (neutral zone emphasis)
+- Strategic Question: First Principles Thinking or Pre-Mortem Analysis
+- Deeper Ask: Values Clarification or Ikigai mapping
+- Restoration: Energy Audit or Attention Mapping (framework comes late — recovery first)
+
+DAILY RHYTHM ARC
+Morning (6–9am): Arrival at the body — gentle, sensory, no prompts until settled
+Midday (9am–1pm): Working — reflection, framework work, coaching call if applicable  
+Afternoon (1–5pm): Integration — movement, exploration, the echo moment territory
+Evening (5–10pm): Gathering and release — fire, water, stillness, no new questions
+
+FORMAT RULES
+Structure the output in two parts:
+
+PART 1 — SIGNAL INTERPRETATION (5-8 lines)
+Label each line clearly:
+Territory: [primary] / [secondary if present]
+Pathway: [A/B/C + name]
+Tier: [1/2/3]
+Voice: [sparse/warm/evidence]
+Symbolism: [practical/middle/resonant]
+Readiness: [challenge/mixed/gentleness]
+Echo: [brief description of what you'll place and where]
+
+PART 2 — THE FIELD GUIDE
+Open with: "A Field Guide for [first name only]" then a blank line and the season/lodge line.
+
+Structure across Day 1 (arrival through evening), Day 2 (full day — the working day), Day 3 (morning and departure). Each day has 4 blocks: Morning, Midday, Afternoon, Evening.
+
+Each block contains:
+- A brief evocative heading (not a time)
+- 2-4 space entries, each with: the space name, 2-4 sentences describing it for this guest (using their sensory doorway, voice, symbolism level), and a discovery question or practice (scaffolded to their tier)
+- The echo moment appears once in the Field Guide — on Day 2 afternoon — placed naturally without explanation
+
+For Day 2 midday: if coaching call selected, include a brief preparation prompt. The working session uses the appropriate framework.
+
+Close with a single paragraph — no heading — that speaks directly to the guest about what they're returning to. One clean thing to carry back.
+
+---
+
+GUEST INTAKE DATA:
+Name: ${r.name}
+Lodge: ${r.lodge}
+Arrival: ${r.arrival} (${season}, ${month})
+Departure: ${r.departure}
+
+Q1 — What's bringing you (their words): ${r.q1}
+Q2 — Territory: ${r.q2}
+Q3 — How long carrying this: ${r.q3}
+Q4 — Second thread: ${r.q4 || '(none)'}
+Q5 — Sensory doorway: ${r.q5}
+Q6 — Mental pace: ${r.q6}
+Q7 — Stillness comfort: ${r.q7}
+Q8 — Nature familiarity: ${r.q8}
+Q9 — Readiness: ${r.q9}
+Q10 — Experience tier: ${r.q10}
+Q11 — Voice: ${r.q11}
+Q12 — Symbolism dial: ${r.q12}
+Q13 — Format: ${r.q13}
+Q14 — The lost thing: ${r.q14}
+Q15 — Physical notes: ${r.q15 || 'None noted'}
+Q16 — Dietary notes: ${r.q16 || 'No restrictions noted'}
+Q17 — Coach note: ${r.q17 || '(none)'}
+
+Computed Pathway: ${pathway}
+
+Now generate the Field Guide. Start with PART 1 (Signal Interpretation), then PART 2 (The Field Guide). Do not add any other headers or commentary.`;
 }
 
 // ─── SUBMIT ───────────────────────────────────────────────────────────────────
-async function submitForm() {
-  const errorBox = document.getElementById('errorBox');
-  errorBox.classList.remove('visible');
+async function submitIntake() {
+  if (!validateStep(5)) return;
 
-  if (!document.querySelector('input[name="q12"]:checked')) {
-    showError('Please select how you\'d describe yourself.'); return;
+  const key = API_KEY;
+  if (!key) {
+    document.getElementById('error-box').style.display = 'block';
+    document.getElementById('error-box').textContent = 'Configuration error: API key not set. Please contact Vanderkamp.';
+    return;
   }
 
-  const apiKey = API_KEY_DEFAULT;
-  const guestName = document.getElementById('guestName').value.trim();
-  const arrivalDate = document.getElementById('arrivalDate').value;
-  const departureDate = document.getElementById('departureDate').value;
-  const lodge = document.getElementById('lodge').value;
+  const responses = collectResponses();
+  guestName = responses.name;
 
-  const arr = new Date(arrivalDate + 'T12:00:00');
-  const dep = new Date(departureDate + 'T12:00:00');
-  const diffH = Math.round((dep - arr) / 3600000);
-  const duration = diffH <= 50 ? '48 hours' : '72 hours';
-  const month = arr.getMonth();
-  const season = month <= 1 || month === 11 ? 'Winter' : month <= 4 ? 'Spring' : month <= 7 ? 'Summer' : 'Fall';
-  const dateOpts = { month:'long', day:'numeric', year:'numeric' };
-  const arrDisplay = arr.toLocaleDateString('en-US', dateOpts);
-  const depDisplay = dep.toLocaleDateString('en-US', dateOpts);
-
-  guestNameGlobal = guestName;
-
-  const q4  = document.querySelector('input[name="q4"]:checked')?.value || '';
-  const q5  = document.getElementById('q5').value;
-  const q6  = document.querySelector('input[name="q6"]:checked')?.value || '';
-  const q7  = document.querySelector('input[name="q7"]:checked')?.value || '';
-  const q8  = document.getElementById('q8').value.trim() || 'No limitations noted';
-  const q9  = document.getElementById('q9').value.trim() || 'Not specified';
-  const q10a = document.querySelector('input[name="q10arrival"]:checked')?.value || 'Not specified';
-  const q10d = document.getElementById('q10diet').value.trim() || 'No restrictions';
-  const q11 = document.getElementById('q11').value.trim() || 'Nothing additional';
-  const q12 = document.querySelector('input[name="q12"]:checked')?.value || '';
-
-  document.getElementById('progressFill').style.width = '100%';
-  showScreen('generating');
-
-  const systemPrompt = `You are the Fieldwork Field Guide Generator for Vanderkamp, an 850-acre nature-based personal offsite in upstate New York.
-
-FIELDWORK PHILOSOPHY: Guests already hold the wisdom they seek. Your role is to design conditions for them to find it — not to instruct, not to tell, not to promise outcomes. A trail of discoveries, not a set of instructions.
-
-VOICE: Warm, intelligent, grounded. Never clinical, never soft, never sycophantic. Treat the guest as a capable adult. Never use: journey, transformation, growth, wellness, potential, breakthrough, unlock, or spa-brochure language.
-
-THE SCHEDULING RULE: Sequence, do not schedule. No clock times. Use rhythm language: "When you're ready to move in the morning...", "After the day has opened up...", "As the afternoon settles...", "As the light changes..."
-
-FOUR RHYTHM ARCS:
-Morning — activation, movement, physical work, framework exercises
-Midday — ease, integration, long meals, unstructured time, hammock
-Afternoon — depth, journaling, contemplative spaces, lake time
-Evening — landing, fire, reflection, labyrinth, winding down
-
-AGENDA BLOCKS FORMAT: Each block = activity name (evocative not procedural) + space name + rhythm arc label + 2-4 sentences body text. Body ends on invitation not instruction. Include relevant science only when it enhances.
-
-VANDERKAMP PROPERTY (draw from these):
-Arrival: The Forest Drive (half-mile threshold, roll windows down)
-Lake: The Beach (50-acre lake, open sky, sunrises), The Dock (liminal, between worlds), On the Water (kayak/canoe/SUP), The Floating Dock (8x8 platform 300ft from shore, kayak only)
-Trails: Blue Trail (1.7mi moderate — pine grove zone, bridge, hill at end), Orange Trail (2.4mi challenging — route-finding, Mallard Pond reward), Yellow Trail (1.8mi easy — lake views, Cobblestone Dams, gentle water), Green Trail (2.1mi mod-challenging — wetlands, boardwalks, ferns)
-Forest Destinations: Pine Forest Zone (dense pine, concentrated phytoncides, near-silence), Blue Trail Bridge (running water, letting-go), Cobblestone Dams (100yr old stone, legacy/patience), Mallard Pond (beaver-built, earned reward, hilltop view), Sled Hill (play, joy), Hammock Grove at Stone Ponds, Meditation Labyrinth (brick, no wrong turns, near Spa), Forest Venue (pine clearing with benches), The Last Chestnuts (resilience story), The Hill/Perspective Point (end of Blue Trail, elevated view), The Ferns (chest-high, ancient, Green Trail), The Field (open meadow, decision point on Orange Trail)
-Spa: Steam Sauna + Cold Plunge (book ahead, 45min heat), Salt-Wall Meditation Room (Himalayan salt wall, moss wall, iPad-guided meditation), White Pine Lounge (pine tea, robes, integration)
-Kempwick: Fireplace Lounge (permission to do nothing), Bar (WiFi, digital window), Sunken Fire Pit (100yr stone foundation, seats 20+)
-Lodges: Boathouse (private dock, hammock, lake views), Langston Cottage (book nook, soaking tub, one room), Wohlleben Cabin (deep forest, solitude), Frank Soule Lodge (communal, 1910 original, lakefront), Grace Manor (9 ensuite, hot tub, back deck fire pit)
-
-GENERATE the complete Field Guide in this exact structure:
-
-═══════════════════════════════════════════
-FIELDWORK
-Your Personal Offsite at Vanderkamp
-═══════════════════════════════════════════
-
-[Guest Name]
-[Arrival Date] — [Departure Date]
-[Lodge]
-
-"[EVOCATIVE LINE: 10-20 words drawn from their stated intention, their language refined — not a tagline, their words]"
-
-─────────────────────────────────────
-WHY YOU'RE HERE
-─────────────────────────────────────
-[2-3 paragraphs. P1: mirror their challenge back with understanding not summary. P2: what these days are designed to do. P3 optional: gentle reframe or opening question. Max 250 words. Never promise outcomes or tell them what they'll discover.]
-
-─────────────────────────────────────
-BEFORE YOU ARRIVE
-─────────────────────────────────────
-
-THE JOURNEY IN
-[Podcast or book matched to territory + one sentence on why this one for them + brief forest drive closing instruction]
-
-YOUR OUT OF OFFICE
-Thank you for reaching out.
-
-I'm currently offline — not hiding, but deliberately away. I'm at Vanderkamp, doing the kind of thinking that email interrupts.
-
-I'll return on [DATE], sharper and more useful to you than I am right now.
-
-For urgent matters, please contact [NAME] at [EMAIL].
-
-— [Your name]
-
-WHAT TO PACK
-Pack for outside — whatever the weather is. Rain, cold, and snow are not reasons to stay in. They're often the reason to go out. Some of the most clarifying experiences on this property happen in the middle of a November morning when the trail is wet and no one else is on it. Bring layers. Bring boots. Bring a rain jacket that you'll actually wear. The forecast doesn't get to decide what's possible.
-
-[Add one seasonal sentence appropriate to their arrival month]
-
-─────────────────────────────────────
-YOUR [DURATION]
-─────────────────────────────────────
-
-DAY ONE
-[1-2 sentence evocative frame for this day]
-
-[MORNING]
-◈ [Activity Name]
-[Space]
-[2-4 sentences. Invitation at end.]
-
-[Continue all blocks across Day 1, Day 2, Day 3 with rhythm arc labels]
-
-─────────────────────────────────────
-THE CLOSING MORNING
-─────────────────────────────────────
-[One practice. Unhurried. 100-150 words. Nothing scheduled after it.]
-
-─────────────────────────────────────
-CARRYING IT FORWARD
-─────────────────────────────────────
-[3-5 suggestions. 1-2 sentences each. Seeds not assignments. Specific to this person.]
-
-─────────────────────────────────────
-A NOTE FROM VANDERKAMP
-─────────────────────────────────────
-These 850 acres have been a place of retreat for over two hundred years. They don't care about your title, your deadlines, or your to-do list. They only ask that you slow down long enough to notice what's already here. We hope you found it. Come back whenever you need to remember.`;
-
-  const userPrompt = `GUEST DATA:
-Name: ${guestName}
-Arrival: ${arrDisplay}
-Departure: ${depDisplay}
-Duration: ${duration}
-Season: ${season}
-Lodge: ${lodge}
-
-Q1 — What's bringing you here: ${document.getElementById('q1').value.trim()}
-Q2 — What a great outcome looks like: ${document.getElementById('q2').value.trim()}
-Q3 — Biggest obstacle: ${document.getElementById('q3').value.trim() || 'Not specified'}
-Q4 — How mind naturally quiets: ${q4}
-Q5 — Nervous system state: ${q5}
-Q6 — Experience with attention practices: ${q6}
-Q7 — How they work with ideas: ${q7}
-Q8 — Physical notes: ${q8}
-Q9 — Most ready to work on: ${q9}
-Q10a — How arriving: ${q10a}
-Q10b — Dietary notes: ${q10d}
-Q11 — What coach should know: ${q11}
-Q12 — Self-described orientation / symbolism dial: ${q12}
-
-Before generating the Field Guide, state your signal interpretation in 5 lines:
-TERRITORY: [Crossroads/Stuck Place/Passage/Strategic Question/Deeper Ask/Restoration] — [brief why]
-ENTRY STYLE: [Watcher/Listener/Mover/Thinker] — [brief why]
-ARRIVAL STATE: [Activated/Functional/Depleted] — [brief why]
-SYMBOLISM: [Hint/Moderate/Explicit] — [brief why]
-PRIMARY FRAMEWORK: [name] — [brief why]
-
-Then generate the complete Field Guide.`;
+  showScreen('gen');
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': key,
         'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 4000,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }],
-      }),
+        messages: [{ role: 'user', content: buildPrompt(responses) }]
+      })
     });
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err?.error?.message || 'API error ' + res.status);
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => ({}));
+      throw new Error(errData.error?.message || `API error ${resp.status}`);
     }
 
-    const data = await res.json();
+    const data = await resp.json();
     const fullText = data.content?.[0]?.text || '';
 
-    // Split signals from guide
-    const guideStart = fullText.indexOf('═══');
-    const signalsRaw = guideStart > 0 ? fullText.slice(0, guideStart).trim() : '';
-    const guideText  = guideStart > 0 ? fullText.slice(guideStart).trim() : fullText;
+    // Split signal interpretation from guide
+    const part2Idx = fullText.indexOf('PART 2');
+    const guideIdx = fullText.indexOf('A Field Guide for');
 
-    resultText = fullText;
-
-    document.getElementById('resultGuestName').textContent = guestName + ' — Field Guide Draft';
-    document.getElementById('resultDates').textContent = arrDisplay + ' — ' + depDisplay + '  ·  ' + lodge;
-
-    const sigBox = document.getElementById('resultSignals');
-    if (signalsRaw) {
-      sigBox.innerHTML = '<strong>Signal Interpretation</strong>' + signalsRaw.replace(/\n/g, '<br>');
-      sigBox.style.display = 'block';
+    let signalText, guideText;
+    if (part2Idx > -1) {
+      signalText = fullText.substring(0, part2Idx).replace('PART 1 — SIGNAL INTERPRETATION', '').replace('PART 1', '').trim();
+      guideText  = fullText.substring(part2Idx).replace(/^PART 2[^\n]*\n/, '').trim();
+    } else if (guideIdx > -1) {
+      signalText = fullText.substring(0, guideIdx).trim();
+      guideText  = fullText.substring(guideIdx).trim();
     } else {
-      sigBox.style.display = 'none';
+      signalText = '';
+      guideText  = fullText;
     }
 
-    document.getElementById('resultContent').textContent = guideText;
+    fullGuideText = fullText;
+
+    document.getElementById('result-title').textContent = 'Field Guide — ' + guestName.split(' ')[0];
+    document.getElementById('signal-text').textContent = signalText;
+    document.getElementById('guide-text').textContent  = guideText;
+
     showScreen('result');
+    document.getElementById('progress-fill').style.width = '100%';
 
   } catch (err) {
     showScreen('form');
-    showStep(4);
-    showError('Generation failed: ' + err.message + '. Please try again or contact Vanderkamp.');
+    showStep(5);
+    const box = document.getElementById('error-box');
+    box.style.display = 'block';
+    box.textContent = 'Something went wrong: ' + err.message + '. Please try again or contact Vanderkamp.';
   }
 }
 
-function showError(msg) {
-  const box = document.getElementById('errorBox');
-  box.textContent = msg;
-  box.classList.add('visible');
-  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-// ─── RESULT ACTIONS ───────────────────────────────────────────────────────────
-function copyResult() {
-  navigator.clipboard.writeText(resultText).then(() => {
-    const btn = event.currentTarget;
+// ─── COPY / DOWNLOAD ─────────────────────────────────────────────────────────
+function copyGuide() {
+  navigator.clipboard.writeText(fullGuideText).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
     btn.textContent = 'Copied ✓';
-    setTimeout(() => btn.innerHTML = 'Copy to clipboard <span class="arrow">↗</span>', 2000);
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = resultText; document.body.appendChild(ta);
-    ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    setTimeout(() => btn.textContent = orig, 2000);
   });
 }
 
-function downloadResult() {
-  const blob = new Blob([resultText], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
+function downloadGuide() {
+  const fname = 'FieldworkVK-' + guestName.replace(/\s+/g, '-') + '.txt';
+  const blob = new Blob([fullGuideText], { type: 'text/plain' });
   const a = document.createElement('a');
-  a.href = url;
-  a.download = 'FieldworkVK-' + guestNameGlobal.replace(/\s+/g,'-') + '.txt';
-  a.click(); URL.revokeObjectURL(url);
-}
-
-function startOver() {
-  document.querySelectorAll('.field-input,.field-textarea').forEach(el => {
-    if (el.id !== 'apiKey') el.value = '';
-  });
-  document.querySelectorAll('.field-select').forEach(el => el.value = '');
-  document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
-  document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
-  document.querySelectorAll('.scale-dot').forEach(d => d.classList.remove('selected'));
-  document.getElementById('scaleDisplay').textContent = 'Select a number';
-  document.getElementById('scaleDisplay').style.color = 'var(--text-dim)';
-  scaleValue = null; resultText = '';
-  document.getElementById('progressFill').style.width = '0%';
-  showScreen('landing');
+  a.href = URL.createObjectURL(blob);
+  a.download = fname;
+  a.click();
 }
 </script>
 </body>

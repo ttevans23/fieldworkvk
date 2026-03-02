@@ -348,6 +348,15 @@ body::before {
 
 .q-divider { height: 1px; background: var(--border); margin: 40px 0; border: none; }
 
+.meal-section { margin-top: 1.5rem; }
+.meal-day-header {
+  font-family: var(--ff-body); font-size: 11px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--sage); margin: 28px 0 10px;
+  padding-bottom: 6px; border-bottom: 1px solid rgba(122,158,90,0.2);
+}
+.meal-section:first-child .meal-day-header { margin-top: 0; }
+.meal-choices { gap: 8px; }
+
 .choices { display: grid; gap: 10px; margin-bottom: 0; }
 .choices label.choice-card {
   border: 1px solid var(--border); background: rgba(255,255,255,0.03);
@@ -656,7 +665,7 @@ body::before {
     <div class="wrap">
       <div class="section-label">Section C — Your Experience</div>
       <h2 class="step-title">How you work</h2>
-      <p class="step-desc">Five questions that shape the register, depth, and tone of your Field Guide.</p>
+      <p class="step-desc">Four questions that shape the register, depth, and tone of your Field Guide.</p>
 
       <!-- Q9 -->
       <div class="q-label">Q9 — Readiness</div>
@@ -700,16 +709,6 @@ body::before {
         <label class="choice-card"><input type="radio" name="q12" value="Resonant"><span class="card-body">Meaningfully. I find the natural world genuinely resonant — patterns, metaphors, connections. Nature has been a place of insight for me.</span></label>
       </div>
 
-      <hr class="q-divider">
-
-      <!-- Q13 -->
-      <div class="q-label">Q13 — Format</div>
-      <div class="q-text">Would you like to work with a coach during your time here, or move through it on your own?</div>
-      <div class="choices" style="margin-top:0.8rem">
-        <label class="choice-card"><input type="radio" name="q13" value="Coaching"><span class="card-body"><strong>With a coaching call</strong>Having a thinking partner would be valuable.</span></label>
-        <label class="choice-card"><input type="radio" name="q13" value="Self-guided"><span class="card-body"><strong>Self-guided</strong>I'd rather move through it on my own terms.</span></label>
-      </div>
-
       <div class="step-nav">
         <button class="btn-back" onclick="prevStep(3)">← Back</button>
         <button class="btn-next" onclick="nextStep(3)">Continue →</button>
@@ -724,12 +723,12 @@ body::before {
       <h2 class="step-title">Something lost</h2>
       <p class="step-desc">One question. It shapes something quiet in your Field Guide — something placed in your path rather than explained to you.</p>
 
-      <!-- Q14 -->
-      <div class="q-label">Q14 — The lost thing</div>
+      <!-- Q13 -->
+      <div class="q-label">Q13 — The lost thing</div>
       <div class="q-text">What's something you used to love doing that's quietly disappeared from your life?</div>
       <div class="q-hint">A sentence or two is plenty.</div>
       <div class="field">
-        <textarea id="q14" placeholder="Take your time with this one…" rows="4"></textarea>
+        <textarea id="q13" placeholder="Take your time with this one…" rows="4"></textarea>
       </div>
 
       <div class="step-nav">
@@ -746,22 +745,73 @@ body::before {
       <h2 class="step-title">A few last things</h2>
       <p class="step-desc">These go to the team and your coach. They don't change your Field Guide directly — but they help us take care of you well.</p>
 
-      <!-- Q15 -->
-      <div class="q-label">Q15 — Physical notes</div>
+      <!-- Q14 -->
+      <div class="q-label">Q14 — Physical notes</div>
       <div class="q-text">Anything we should know about physical comfort or mobility?</div>
       <div class="q-hint">Injuries, limitations, things to build around. "No limitations" works too.</div>
       <div class="field">
-        <textarea id="q15" placeholder="Physical notes…" rows="3"></textarea>
+        <textarea id="q14" placeholder="Physical notes…" rows="3"></textarea>
       </div>
 
       <hr class="q-divider">
 
-      <!-- Q16 -->
-      <div class="q-label">Q16 — Dietary notes</div>
+      <!-- Q15 — DIETARY NOTES -->
+      <div class="q-label">Q15 — Dietary notes</div>
       <div class="q-text">Any dietary needs, allergies, or preferences the kitchen should know about?</div>
-      <div class="q-hint">"No restrictions" is a perfectly good answer.</div>
+      <div class="q-hint">Allergies, vegetarian/vegan, gluten-free, or anything else. "No restrictions" works too.</div>
       <div class="field">
-        <textarea id="q16" placeholder="Dietary notes…" rows="3"></textarea>
+        <textarea id="q15" placeholder="Dietary notes…" rows="3"></textarea>
+      </div>
+
+      <hr class="q-divider">
+
+      <!-- Q16 — MEAL SELECTION -->
+      <div class="q-label">Q16 — Meal selection</div>
+      <div class="q-text">Please select your meals for your stay. Each option is designed to support cognitive performance and sustained energy.</div>
+      <div class="q-hint">One selection per meal period.</div>
+
+      <div class="meal-section">
+        <div class="meal-day-header">DAY 1 DINNER — The Evening Arrival</div>
+        <div class="choices meal-choices">
+          <label class="choice-card"><input type="radio" name="meal_d1_dinner" value="Focus Protocol"><span class="card-body"><strong>The Focus Protocol</strong>Herb-roasted salmon with roasted sweet potato and wilted greens. Omega-3s, complex carbs, magnesium — supports focus and sleep onset.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d1_dinner" value="Recovery Reset"><span class="card-body"><strong>The Recovery Reset</strong>Free-range chicken thighs with quinoa, roasted vegetables, and lemon tahini. Complete protein, anti-inflammatory, stable energy.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d1_dinner" value="Clean Slate"><span class="card-body"><strong>The Clean Slate</strong>Red lentil and vegetable curry with brown rice and cucumber raita. Plant-based, high fiber, gut-supportive.</span></label>
+        </div>
+
+        <div class="meal-day-header">DAY 2 BREAKFAST — The Morning Ignition</div>
+        <div class="choices meal-choices">
+          <label class="choice-card"><input type="radio" name="meal_d2_breakfast" value="Deep Work Fuel"><span class="card-body"><strong>The Deep Work Fuel</strong>Scrambled eggs with avocado, roasted vegetables, and sourdough. Protein, healthy fats, slow-release carbs.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d2_breakfast" value="Steady State"><span class="card-body"><strong>The Steady State</strong>Steel-cut oats with walnuts, blueberries, and local honey. Sustained glucose, antioxidants, omega-3s.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d2_breakfast" value="Clarity Bowl"><span class="card-body"><strong>The Clarity Bowl</strong>Greek yogurt parfait with granola, seasonal fruit, and chia seeds. Probiotics, protein, fiber.</span></label>
+        </div>
+
+        <div class="meal-day-header">DAY 2 LUNCH — The Midday Reset</div>
+        <div class="choices meal-choices">
+          <label class="choice-card"><input type="radio" name="meal_d2_lunch" value="Sustained Focus"><span class="card-body"><strong>The Sustained Focus</strong>Mixed greens with grilled chicken, farro, roasted beets, and lemon vinaigrette. Iron, complex carbs, vitamin C.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d2_lunch" value="Light Lift"><span class="card-body"><strong>The Light Lift</strong>Tomato basil soup with crusty sourdough and a side salad. Plant-based, lycopene, easily digestible.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d2_lunch" value="Deep Work Wrap"><span class="card-body"><strong>The Deep Work Wrap</strong>Turkey, avocado, and roasted vegetable wrap with sweet potato chips. Lean protein, healthy fats, potassium.</span></label>
+        </div>
+
+        <div class="meal-day-header">DAY 2 AFTERNOON NOURISHMENT</div>
+        <div class="choices meal-choices">
+          <label class="choice-card"><input type="radio" name="meal_d2_snack" value="The Bridge"><span class="card-body"><strong>The Bridge</strong>Apple with almond butter and two squares of dark chocolate. Natural sugar, protein, flavonoids.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d2_snack" value="The Recharge"><span class="card-body"><strong>The Recharge</strong>Hummus with cucumber, carrots, and whole grain crackers. Fiber, plant protein, slow-release energy.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d2_snack" value="Focus Bite"><span class="card-body"><strong>The Focus Bite</strong>House trail mix with almonds, pumpkin seeds, dried cherries, and cacao nibs. Magnesium, zinc, antioxidants.</span></label>
+        </div>
+
+        <div class="meal-day-header">DAY 2 DINNER — The Evening Integration</div>
+        <div class="choices meal-choices">
+          <label class="choice-card"><input type="radio" name="meal_d2_dinner" value="Deep Rest"><span class="card-body"><strong>The Deep Rest</strong>Pan-seared salmon with asparagus, mashed cauliflower, and herb oil. Tryptophan, magnesium, sleep-supportive.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d2_dinner" value="Wind-Down"><span class="card-body"><strong>The Wind-Down</strong>Herb-roasted chicken with root vegetables, wild rice, and pan jus. Complete protein, complex carbs, warming.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d2_dinner" value="The Restore"><span class="card-body"><strong>The Restore</strong>Black bean and sweet potato bowl with avocado, pickled onion, and salsa verde. Plant-based, fiber-rich, anti-inflammatory.</span></label>
+        </div>
+
+        <div class="meal-day-header">DAY 3 BREAKFAST — The Send-Off</div>
+        <div class="choices meal-choices">
+          <label class="choice-card"><input type="radio" name="meal_d3_breakfast" value="Sustained Launch"><span class="card-body"><strong>The Sustained Launch</strong>Overnight oats with banana, almond butter, hemp seeds, and honey. Slow-release energy, sustained focus for the drive home.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d3_breakfast" value="Grounded Exit"><span class="card-body"><strong>The Grounded Exit</strong>Vegetable and egg frittata with seasonal greens and sourdough toast. Protein, B vitamins, steady energy.</span></label>
+          <label class="choice-card"><input type="radio" name="meal_d3_breakfast" value="Clean Exit"><span class="card-body"><strong>The Clean Exit</strong>Smoothie bowl with spinach, mixed berries, banana, and granola. Plant-based, antioxidants, easy on the stomach.</span></label>
+        </div>
       </div>
 
       <hr class="q-divider">
@@ -890,10 +940,16 @@ function validateStep(n) {
     if (!document.querySelector('input[name="q10"]:checked')) return err('Please select your experience level (Q10).');
     if (!document.querySelector('input[name="q11"]:checked')) return err('Please select your voice preference (Q11).');
     if (!document.querySelector('input[name="q12"]:checked')) return err('Please select how you relate to the natural world (Q12).');
-    if (!document.querySelector('input[name="q13"]:checked')) return err('Please select your format preference (Q13).');
   }
   if (n === 4) {
-    if (!document.getElementById('q14').value.trim()) return err('Please answer the lost thing question (Q14) — it shapes something important in your Field Guide.');
+    if (!document.getElementById('q13').value.trim()) return err('Please answer the lost thing question (Q13) — it shapes something important in your Field Guide.');
+  }
+  if (n === 5) {
+    const meals = ['meal_d1_dinner','meal_d2_breakfast','meal_d2_lunch','meal_d2_snack','meal_d2_dinner','meal_d3_breakfast'];
+    const labels = ['Day 1 Dinner','Day 2 Breakfast','Day 2 Lunch','Day 2 Afternoon Nourishment','Day 2 Dinner','Day 3 Breakfast'];
+    for (let i = 0; i < meals.length; i++) {
+      if (!document.querySelector(`input[name="${meals[i]}"]:checked`)) return err(`Please select your ${labels[i]} option (Q15).`);
+    }
   }
   return true;
 }
@@ -919,10 +975,15 @@ function collectResponses() {
     q10:        r('q10'),
     q11:        r('q11'),
     q12:        r('q12'),
-    q13:        r('q13'),
+    q13:        g('q13'),
     q14:        g('q14'),
     q15:        g('q15'),
-    q16:        g('q16'),
+    q16_d1_dinner:    r('meal_d1_dinner'),
+    q16_d2_breakfast: r('meal_d2_breakfast'),
+    q16_d2_lunch:     r('meal_d2_lunch'),
+    q16_d2_snack:     r('meal_d2_snack'),
+    q16_d2_dinner:    r('meal_d2_dinner'),
+    q16_d3_breakfast: r('meal_d3_breakfast'),
     q17:        g('q17'),
   };
 }
@@ -973,8 +1034,164 @@ TIER CALIBRATION (Q10: ${r.q10})
 - Tier 2 (some experience): brief orientation before each discovery question, then space
 - Tier 1 (new to this): full scaffolding. Tell them where to sit, what to notice first, how to work with the mind when it wanders.
 
-PROPERTY — KEY SPACES
-Forest Drive (arrival, threshold crossing), The Beach (open sky, sunrise/sunset, horizon), The Dock (liminal, forward-facing, decisions), On the Water (kayak/canoe/SUP, rhythm, agency), The Floating Dock (apartness, surrender, trust), Orange Trail (2.4mi, challenging, route-finding, adventure, Mallard Pond reward), Blue Trail (1.7mi, moderate, pine grove, bridge over water, perspective hill, Forest Immersion signage), Yellow Trail (1.8mi, easy, lake walk, cobblestone dams, Crandell Creek), Green Trail (2.1mi, wetlands, ferns, boardwalks, wildness), Pine Forest Zone (densest phytoncides, near silence, sanctuary), Blue Trail Bridge (running water, letting go, flow), Cobblestone Dams (persistence, legacy, patience), Mallard Pond (earned reward, beaver dam, hidden beauty), Hammock Grove (surrender, permission to rest), Meditation Labyrinth (walking meditation, no wrong turns, ritual), Forest Venue (outdoor meeting room, sand/moss floor), The Last Chestnuts (resilience, relentless return, identity), The Hill (perspective, elevation, overview), The Ferns (primordial, timelessness, wonder), The Field — west end (decision point, openness, sky), Sled Hill (play, joy, breaking patterns), Steam Sauna (purification, contrast therapy), Cold Plunge (courage, reset, presence), Salt-Wall Meditation Room (sanctuary, adjustable atmosphere, guided meditation iPad available), White Pine Lounge (integration, pine tea, transition), Fitness Room (movement, routine maintenance), Kempwick Fireplace Lounge (permission, warmth, unstructured), Kempwick Bar (designated digital window), Sunken Fire Pit (gathering, storytelling, historical stone, stargazing), Boathouse (water lodge, private dock, hammock), Langston Cottage (one room, lake views, soaking tub, book nook), Wohlleben Cabin (deepest forest, solitude, pet friendly), Frank Soule Lodge (largest, lakefront, shared cooking), Grace Manor (20 guests, ensuite, hot tub, fire pit, front and back decks)
+PROPERTY SPATIAL DATABASE
+Use the entries below to match the right practice to the right place at the right time. Each entry gives you the information needed to make intelligent, personalized assignments. Calibrate symbolism to Q12 and scaffolding to Q10 when writing any space into the Field Guide.
+
+SYMBOLISM CALIBRATION PRINCIPLE
+Practically-minded guests (executives, skeptics): Keep symbolism at hint level — describe what the environment does, not what it means. Example: "Begin your morning on the dock" not "Begin on the dock, a liminal space between where you've been and where you're going."
+Spiritually-oriented guests: Symbolism can be direct and explicit. These guests feel seen by it.
+Middle: Start with hints. Let the coach adjust after first contact.
+
+— ZONE 1: THE ARRIVAL —
+
+[ARRIVAL-01] The Forest Drive
+Narrative: "Before anything begins, there is this: a half-mile drive through old-growth forest that narrows the world down to trees, light, and the road ahead. Roll down the windows. Turn off the podcast. This is where Fieldwork starts."
+Energetic quality: Threshold crossing, decompression, anticipation, narrowing of attention
+Best time: Arrival (universal — sets tone regardless of time)
+Sensory profile: Dappled light through canopy; gravel under tires; temperature drops 5–10° under canopy; pine and earth scent
+Suitable modalities: Guided audio welcome; intentional silence; breath counting; sensory attention practice
+Contraindications: None — universal
+Coach notes: Pre-arrival communication should instruct guest to enter via Forest Drive specifically. A 3-minute guided audio beginning with "Turn off whatever you're listening to" works well here. This is the first moment of the experience — treat with intention.
+
+— ZONE 2: THE LAKEFRONT —
+
+[LAKE-BEACH-01] The Beach
+Narrative (general): "The lake is 50 acres of stillness. Stand at the shore at dawn and watch the mist lift. Sit in the sand at midday and let the sound of small waves reorganize your thinking. This is the property's open sky — the counterpoint to the forest's enclosure."
+Narrative (fall): "The lake holds the colors of the surrounding forest like a second canvas. Sit on the shore and watch the season let go of what it carried. There's permission in that."
+Narrative (winter): "The lake is frozen and the beach is bare. There is a stark, honest beauty here — nothing to hide behind."
+Energetic quality: Openness, expansiveness, reflection, play, simplicity, calm
+Best time: Dawn (mist/sunrise), midday (warmth), dusk (sunset), night (stargazing — open sky, low light pollution); good for end-of-Day-1 reflection
+Sensory profile: Open sky; water lapping; bird calls; full sun; wide horizon; sand underfoot
+Suitable modalities: Morning stillness, sunrise observation, open-eye meditation, horizon gazing, journaling, grounding (barefoot in sand), free swim, gratitude practice, letter writing, nighttime stargazing (lounge chairs)
+Contraindications: Not ideal for guests needing solitude (near main drive, accessible to all); sun-sensitive guests should use covered porch at Gear Shack
+Infrastructure: Lounge chairs, charcoal grill, proximity to Gear Shack, restrooms at Kempwick
+Coach notes: Dawn at the beach is one of the most powerful moments on the property. If guest needs perspective or feels constricted, schedule first morning here — the open horizon after forest enclosure creates natural psychological expansion. For couples: side-by-side silence at the water's edge before any structured conversation.
+
+[LAKE-DOCK-01] The Dock
+Narrative: "Walk out over the water. Sit at the edge with your feet hanging. The dock puts you between two worlds — land behind you, open water ahead. It's a natural place for decisions."
+Energetic quality: Liminal (between land and water), decision-making, forward orientation, courage, contemplation
+Best time: Early morning (solitude), late afternoon (golden light), night (stargazing — lie flat on dock, water sounds below, stars above)
+Sensory profile: Water on three sides; subtle motion; reflected light; wind exposure; sense of being "out" from shore
+Capacity: 1–4 people; relatively exposed but feels private
+Suitable modalities: Seated meditation, decision-mapping, future-self visualization, values clarification, intentional silence, coach conversations about "what's ahead," nighttime stargazing
+Contraindications: Not for guests with water anxiety or balance concerns; windy conditions may distract; avoid heavy emotional processing here — exposure feels too vulnerable
+Coach notes: Symbolically powerful for guests at a crossroads. The physical act of walking out over water mirrors letting go of solid ground. Use for forward-looking questions. Save depth work for the forest or lodge.
+
+[LAKE-WATER-01] On the Water (Kayak / Canoe / SUP)
+Narrative: "Being on the water changes how you think. The rhythm of paddling quiets the mind the way walking does — but with the added element of navigating. You choose where to go. You correct course. You find your pace."
+Energetic quality: Agency, rhythm, navigation (literal and metaphorical), freedom, play, movement without achievement
+Best time: Morning (calm water, fewer insects), late afternoon, sunset float in canoe
+Sensory profile: Rhythmic paddle strokes; water sounds amplified; reflected sky; physical engagement; proprioceptive feedback
+Suitable modalities: Moving meditation, paddle rhythm as breathwork anchor, solo integration, paired paddling (side by side, facing same direction), fishing as patience practice
+Contraindications: Non-swimmers or water anxiety; poor weather; physical limitations for paddling
+Infrastructure: Gear Shack with all equipment and life vests; dock to launch or fish
+Coach notes: Schedule after a morning of deep work — physical rhythm helps body process what the mind just encountered. For relationships: canoeing requires coordination and communication — diagnostic for how two people work together.
+
+[LAKE-FLOAT-01] The Floating Dock
+Narrative: "An eight-by-eight platform floating in the lake, a short paddle from shore. No railing. No shade. Just you, the water, and sky in every direction. Getting here requires a little effort and a little trust — and that's the point."
+Energetic quality: Apartness, vulnerability, trust, radical simplicity, floating between worlds, surrender, expansiveness with a visible tether to shore
+Best time: Early morning (glassy water, mist, solitude), midday (full sun), dusk (sunset from the water)
+Sensory profile: Water on all sides; subtle rocking; reflected sky; amplified openness; wind; lapping water against wood; visible from shore but acoustically private
+Capacity: Solo ideal; paired possible but intimate — getting on/off requires coordination and trust
+Suitable modalities: Seated or lying-down meditation, sky gazing, journaling, silence, breathwork, solitude, integration after deep work, surrender exercises; for pairs — trust building (physical act of helping each other on/off is relational data)
+Contraindications: Not available winter/early spring; not for guests uncomfortable with kayak-to-dock transfer; balance concerns; no shade — sun-sensitive guests need protection; wind/waves may make transfer unsafe
+Infrastructure: Floating platform with tie-off cleat; requires watercraft from Gear Shack; life vests recommended
+Coach notes: One of the most psychologically distinctive spaces on the property. Effort to reach it creates commitment. Being visible from shore but apart from it: you're not lost, you've chosen to be separate. For pairs: the choreography of getting on and off is genuinely revealing. Consider scheduling as Day 2 or 3 reward. Instruction can be as simple as: "Paddle out. Tie off. Lie down. Stay as long as you want."
+
+— ZONE 3: THE FOREST (TRAIL SYSTEM) —
+
+Hiking philosophy: Not about summits or checklists — about slowing down. Go off trail. Follow curiosity. Let the forest meet you where you are.
+
+[TRAIL-ORANGE-01] The Southern Loop (Orange Trail)
+Narrative: "This trail is for the more adventurous of spirit. The path isn't always perfectly clear, so you may have to discover your way. But it's worth it. Make sure to detour to Mallard Pond."
+Distance/difficulty: 2.4 miles; challenging; trail not always clearly marked; requires route-finding
+Energetic quality: Adventure, self-reliance, trust (in yourself and the path), discovery, earned reward, exploration beyond comfort zone
+Best time: Morning (full energy), midday (full light for navigation)
+Sensory profile: Deep forest immersion; varied terrain; moments of disorientation followed by discovery; shifting light; diverse flora
+Suitable modalities: Challenge as metaphor (navigating uncertainty), solo exploration, trust exercises, resilience building, adventure therapy, walking reflection
+Contraindications: Not for guests with mobility limitations or navigation anxiety unless intentionally working through it; poor weather makes route-finding harder; not recommended first-day
+Coach notes: The path isn't always clear, you have to find your own way, the reward is hidden — it's a metaphor waiting to happen. For guests navigating uncertainty in their lives. Coach should NOT walk it with them unless specifically needed. This is a solo discovery experience.
+
+[TRAIL-BLUE-01] The Pine Grove Trail (Blue Trail)
+Narrative: "The perfect combination of discovery and woodland serenity. Well marked and full of variety with a challenge here and there. Follow the Forest Immersion signage to enhance your experience."
+Distance/difficulty: 1.7 miles; moderate; well-marked; includes Pine Forest zone, bridge over running water, hill for perspective; Forest Immersion signage installed
+Energetic quality: Reverence, sanctuary, being held, quieting, awe, vertical orientation (trees draw eye upward), discovery balanced with safety
+Best time: Morning (shafts of light through canopy), any time for sheltered walking
+Sensory profile: Pine scent concentrated (especially past bridge, up the hill); muted sound; filtered cathedral light; cooler temperature; running water at bridge; variety of micro-environments
+Suitable modalities: Walking meditation, forest immersion (shinrin-yoku — guided by installed signage), silent walking, gratitude, awe cultivation, contemplative prayer/mantra, slow observation, sensory immersion, breathwork at bridge, perspective exercises at hill
+Contraindications: Some moderate challenges — guests with limited mobility should be informed; uneven terrain in sections
+Coach notes: The "default" trail for most guests — best balance of accessibility and depth. Forest Immersion signage means guests can have a structured solo experience without the coach present. Variety of micro-environments (pine grove, bridge, hill, clearings) means different practices can be assigned to different points along the same trail.
+
+[TRAIL-YELLOW-01] The Lake Walk Trail (Yellow Trail)
+Narrative: "The place to start if you're new to or just getting back into hiking. Clear and easy to navigate, most of the path follows the VK Entry Drive, along Vanderkamp Lake, Crandel Creek, and over the Cobblestone Dams."
+Distance/difficulty: 1.8 miles; easy; clear and well-navigated; follows VK Entry Drive for a section (shared with vehicle traffic — be mindful); passes lake, Crandel Creek, and Cobblestone Dams
+Energetic quality: Gentleness, welcome, grounding, ease, introduction, flow, continuity (water as throughline)
+Best time: Any — accessibility makes it all-hours; dawn and dusk along the lake are particularly beautiful
+Sensory profile: Water presence throughout (lake, creek, dams); open sky near lake; birdsong; gentle terrain; sound of water over stone at the dams
+Suitable modalities: Gentle walking meditation, first-day orientation walk, water-focused attention practices, gratitude walk, coach walk-and-talk, cobblestone dam as stopping point for reflection, creek observation
+Contraindications: Shared road section — awareness of vehicles needed; very low challenge may not serve guests who need physical activation
+Coach notes: Ideal Day 1 trail. Welcoming, follows water, introduces property gently. Cobblestone Dams are a natural stopping point. The shared road section is an opportunity — guest walks what they drove, seeing it at different pace, noticing what speed hid from them.
+
+[TRAIL-GREEN-01] The Outer Rim (Green Trail)
+Narrative: "The Outer Rim varies by season. Leave from the Kempwick trailhead in spring and it's a moderate hike with lots of interest. Leave from the western head in summer… prepare to explore. The boardwalks through the wetlands can be challenging — exercise extra caution."
+Distance/difficulty: 2.1 miles; moderate to challenging; boardwalks through wetlands; multiple trailheads (Kempwick and western); fern-rich sections; connects to Blue Trail at one branch
+Energetic quality: Exploration, adaptation (terrain changes constantly), ecological wonder, edge-walking (between ecosystems), wildness, unpredictability
+Best time: Morning (wildlife most active in wetlands), midday for warmth on boardwalks
+Sensory profile: Wetland ecology — water, mud, rich organic scent, frog and insect chorus; fern canopy; boardwalk texture underfoot; shifting from dry forest to wet ecosystem; diverse birdsong
+Suitable modalities: Ecology as teacher (observing how different ecosystems coexist), adaptation exercises, edge-walking as metaphor, nature journaling, fern immersion, wetland observation, advanced forest bathing
+Contraindications: Boardwalks can be slippery — extra caution required; challenging terrain not for all mobility levels; summer western approach may require comfort with getting lost; not a first-day trail
+Coach notes: The "wildest" trail on the property — takes guests to the edge of the managed landscape. Powerful for guests who over-manage their lives. Wetland boardwalks require present-moment awareness (footing, balance), which naturally interrupts overthinking. For guests who need to feel they've truly escaped.
+
+[TRAIL-BLUE-PINE-01] The Pine Forest Zone
+Narrative: "Step over the bridge, climb the small rise, and the world changes. The pines close in. The ground softens to needles. Sound disappears. This is the innermost room of the forest."
+Location: Blue Trail — just past the bridge, up the small hill
+Energetic quality: Deep stillness, sanctuary, inwardness, reverence, being held, protection
+Best time: Morning (light shafts), midday (warmth contrasts with cool understory), any time for stillness
+Sensory profile: Concentrated pine scent (phytoncides at highest density); near-silence; filtered green-gold light; temperature noticeably cooler; cathedral ceiling effect
+Suitable modalities: Seated meditation, deep breathing (maximize phytoncide exposure), contemplative prayer, silence, body scanning, lying-down meditation, solo ceremony, intention setting
+Contraindications: Slight hill to reach — inform guests with mobility concerns; pine sap on clothing possible if sitting on ground (bring mat or blanket)
+Coach notes: Arguably the single most powerful contemplative space on the property. The silence is exceptional. For guests who need deep stillness and inward focus, schedule 30–60 minutes here with a single prompt and no other agenda. Also where spiritually-oriented practices (mantra, prayer, ceremony) feel most natural without needing to be "sold."
+
+[TRAIL-BLUE-BRIDGE-01] The Blue Trail Bridge
+Narrative: "Sit on the bridge. Let your legs hang over the edge. Watch the water pass beneath you. Listen to it. Running water doesn't think about where it's been — only where it's going."
+Energetic quality: Flow, letting go, continuity, presence, the middle of a journey (neither beginning nor end), transition
+Best time: Any — water sound is consistent; morning offers freshness; evening offers winding down
+Sensory profile: Running water dominant; rhythmic and constant; cool air rising from stream; dappled light through canopy; gentle vibration through bridge structure
+Suitable modalities: Sitting meditation with running water as anchor, letting-go exercises (drop a leaf and watch it go), listening practice, flow-state contemplation, journaling, coach conversation about what to release
+Contraindications: Bridge may be slippery in wet/icy conditions; sitting on bridge edge requires comfort with informal seating
+Coach notes: Running water is one of the most reliable tools for shifting a guest's mental state. Ideal for a guided "release" exercise. Works across symbolism spectrum: practical guests can frame it as attention training (focus on the water for 10 minutes); spiritual guests can frame it as ceremony.
+
+[TRAIL-YELLOW-DAMS-01] The Cobblestone Dams
+Narrative: "Someone built these stone dams a long time ago. They're still here, still doing their work — shaping the water, slowing its flow. There's something in that worth sitting with."
+Location: Two historic cobblestone dams along Crandell Creek near the main entry drive (north side)
+Energetic quality: Persistence, legacy, patience, human-made meets nature, accumulated effort, the long view
+Best time: Any; morning light on water is particularly beautiful
+Sensory profile: Water over stone; tactile stone surfaces; historical presence; sound of water cascading at different levels; cool mist; moss and lichen on stones
+Suitable modalities: Reflection on legacy and long-term thinking, patience practice, historical contemplation, water observation, stone touching as grounding exercise, journaling about what you're building that will outlast you
+Contraindications: Near road — some ambient noise possible; wet stones can be slippery
+Coach notes: A metaphor for long-term building — relevant for leaders thinking about legacy, and for anyone asking "what am I building with my life?" The physical fact that these structures were built by human hands and endured makes the abstract concrete. For parent/child pairs: "What are the dams in your family — the things built by previous generations that still shape the flow?"
+
+[TRAIL-ORANGE-POND-01] Mallard Pond
+Narrative: "Hidden in the forest at the end of a red trail spur, Mallard Pond rewards those who go looking. The vantage point at the top of the hill overlooks a naturally constructed wetland and a beaver dam responsible for creating the pond. Sit and watch what patience builds."
+Location: Forest South — end of a red trail spur off the Orange Trail (0.2 miles via spur); bench at overlook
+Energetic quality: Reward after effort, hidden beauty, patience (beaver dam as teaching), perspective from elevation, natural engineering, earned stillness
+Best time: Morning (wildlife most active, mist possible), late afternoon (golden light on water)
+Suitable modalities: Observation as meditation, patience practice, journaling, perspective exercises (literal elevation = psychological perspective), nature study, sitting with the question "what am I building?", gratitude for hidden things, solitude time
+Contraindications: Requires moderate hike to reach — not accessible for all mobility levels; Orange Trail navigation needed; not a quick visit
+Coach notes: The "earned reward" of the property. For executives: "The beavers didn't build this pond for anyone to see. They built it because it's what they do. What are you building that nobody sees?" Schedule on Day 2 after the guest has developed some trail comfort.
+
+[FOREST-HAMMOCK-01] Hammock Grove at the Stone Ponds
+Narrative: "Hammocks strung between trees near the stone ponds. Get in. Let the swaying do what your mind can't — slow everything down to the rhythm of the trees."
+Location: Near Kempwick, Spa, and head of Blue Trail
+Energetic quality: Surrender, comfort, gentle deceleration, supported rest, childlike ease, in-between state (not quite sleeping, not quite waking)
+Best time: Midday (rest break), late afternoon (integration), anytime the guest needs permission to stop
+Sensory profile: Gentle swaying motion; tree canopy overhead; stone pond water nearby; birdsong; filtered light; breeze through leaves
+Suitable modalities: Rest as practice, unstructured time, integration after deep work, reading, light journaling, napping (intentionally), daydreaming as creative process, body relaxation, listening meditation
+Contraindications: Back issues may make hammocks uncomfortable; guests who feel guilty resting need coaching framing
+Coach notes: The "permission to do nothing" space. Many high-achieving guests will resist it — that resistance is the point. Schedule after a morning session and call it "integration time" rather than "rest." Achievers will accept integration but reject napping. Proximity to stone ponds adds water element.
+
+[FOREST-LABYRINTH-01] The Meditation Labyrinth
+Narrative: "Off the pine needle path, in a small clearing, lies an
 
 TERRITORY → FRAMEWORK MAPPING
 - Crossroads: Odyssey Plans (Burnett & Evans) or WRAP Decision Framework
@@ -1013,7 +1230,7 @@ Each block contains:
 - 2-4 space entries, each with: the space name, 2-4 sentences describing it for this guest (using their sensory doorway, voice, symbolism level), and a discovery question or practice (scaffolded to their tier)
 - The echo moment appears once in the Field Guide — on Day 2 afternoon — placed naturally without explanation
 
-For Day 2 midday: if coaching call selected, include a brief preparation prompt. The working session uses the appropriate framework.
+For Day 2 midday: coaching calls are part of every retreat. Include a brief preparation prompt for the session. The working session uses the appropriate framework.
 
 Close with a single paragraph — no heading — that speaks directly to the guest about what they're returning to. One clean thing to carry back.
 
@@ -1037,10 +1254,10 @@ Q9 — Readiness: ${r.q9}
 Q10 — Experience tier: ${r.q10}
 Q11 — Voice: ${r.q11}
 Q12 — Symbolism dial: ${r.q12}
-Q13 — Format: ${r.q13}
-Q14 — The lost thing: ${r.q14}
-Q15 — Physical notes: ${r.q15 || 'None noted'}
-Q16 — Dietary notes: ${r.q16 || 'No restrictions noted'}
+Q13 — The lost thing (echo moment): ${r.q13}
+Q14 — Physical notes: ${r.q14 || 'None noted'}
+Q15 — Dietary notes: ${r.q15 || 'No restrictions noted'}
+Q16 — Meal selections: Day 1 Dinner: ${r.q16_d1_dinner} | Day 2 Breakfast: ${r.q16_d2_breakfast} | Day 2 Lunch: ${r.q16_d2_lunch} | Day 2 Afternoon: ${r.q16_d2_snack} | Day 2 Dinner: ${r.q16_d2_dinner} | Day 3 Breakfast: ${r.q16_d3_breakfast}
 Q17 — Coach note: ${r.q17 || '(none)'}
 
 Computed Pathway: ${pathway}
